@@ -2,16 +2,17 @@
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+-Franco Iannone
+-Matias Jordan
 
 ## Capturas
 
 (agregar)
 
 ## Reglas de Juego / Instrucciones
-
+tenes un refugio, soldados, trabajadores y el wololok, el cual hay que proteger de hordas de barbaros, este refugio se puede mejorar
+tambien se puede entrenar soldados, trabajadores y mejorar el wololok.
+el wololok es un personaje que tiene el poder de convertir enemigos en aliados
 (Escribirlas)
 
 
