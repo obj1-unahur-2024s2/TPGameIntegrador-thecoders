@@ -1,0 +1,17 @@
+import wollok.game.*
+
+import example.*
+
+program PepitaGame {
+	game.title("pepita")
+	game.width(15)
+	game.height(24)
+	game.cellSize(50)
+	game.addVisual(monje)
+	game.addVisual(monje2)
+	monje.irA(10,18)
+
+	// game.onTick(250,"animacion",{monje.animar()})
+	game.boardGround("map.png")
+	game.start()
+}
