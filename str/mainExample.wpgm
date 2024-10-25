@@ -1,17 +1,17 @@
-import wollok.game.*
 
-import example.*
+import personajes.*
 
 program PepitaGame {
 	game.title("pepita")
 	game.width(15)
 	game.height(24)
 	game.cellSize(50)
-	game.addVisual(monje)
-	game.addVisual(monje2)
-	monje.irA(10,18)
-
-	// game.onTick(250,"animacion",{monje.animar()})
+	tablero.agregarPersonaje(monje)
+	tablero.agregarPersonaje(monje2)
+	tablero.agregarTorreRoja(new Torre(position = game.at(7,21)))
+	tablero.agregarTorreRoja(new Torre(position = game.at(3,17)))
+	tablero.agregarTorreRoja(new Torre(position = game.at(11,17)))
+	tablero.visualizar()
 	game.boardGround("map.png")
 	game.start()
 }
