@@ -144,19 +144,21 @@ class Torre{
     tablero.entidadesActivas().remove(self)
   }
 }
+object marco{
+  var property position = game.at(0,0)
+  method image() = "marco.png"
+}
 object tablero{
   const property entidadesActivas = []
-  const property torresRojas = []
-  const property torresAzules = []
   method agregarPersonaje(unPersonaje){
     entidadesActivas.add(unPersonaje)
   }
-  method agregarTorreRoja(unaTorre){
-    torresRojas.add(unaTorre)
-  }
-  method agregarTorreAzul(unaTorre){
-    torresAzules.add(unaTorre)
-  }
+  // method agregarTorreRoja(unaTorre){
+  //   torresRojas.add(unaTorre)
+  // }
+  // method agregarTorreAzul(unaTorre){
+  //   torresAzules.add(unaTorre)
+  // }
   method hayAlgoEn(unaPosicion)=
     entidadesActivas.any({entidad => entidad.position() == unaPosicion})
   method entidadEn(unaPosicion) =
