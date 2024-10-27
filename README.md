@@ -22,24 +22,13 @@ el wololok es un personaje que tiene el poder de convertir enemigos en aliados
 - Versión de wollok
 - Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
 ## cosas por hacer
-- madera
-- piedra
-- comida
-- oveja
-- ballas
-- lobo
-- oro
 - soldado
-- campesino
-- explorador
+- arquero
 - enemigos
 - wololok
-- casas
 - cuartel
 - base
 - crear soldados
-- crear campesinos
 - seleccionar unidades
-- zona por descubrir
 - combates
 - ia enemiga
