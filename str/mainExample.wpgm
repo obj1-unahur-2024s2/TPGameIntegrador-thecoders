@@ -1,18 +1,21 @@
 
 import personajes.*
+import config.*
 
 program PepitaGame {
 	game.title("pepita")
 	game.width(15)
 	game.height(24)
 	game.cellSize(50)
-	tablero.agregarPersonaje(monje)
-	tablero.agregarPersonaje(monje2)
-	tablero.agregarPersonaje(new Torre(position = game.at(7,21)))
-	tablero.agregarPersonaje(new Torre(position = game.at(3,17)))
-	tablero.agregarPersonaje(new Torre(position = game.at(11,17)))
-	tablero.visualizar()
-	game.addVisualCharacter(marco)
+	tablero.agregarEntidad(new Torre(position = game.at(7,21),equipo = equipoRojo))
+	tablero.agregarEntidad(new Torre(position = game.at(3,17),equipo = equipoRojo))
+	tablero.agregarEntidad(new Torre(position = game.at(11,17),equipo = equipoRojo))
+	tablero.agregarEntidad(new Torre(position = game.at(7,2),equipo = equipoAzul))
+	tablero.agregarEntidad(new Torre(position = game.at(3,6),equipo = equipoAzul))
+	tablero.agregarEntidad(new Torre(position = game.at(11,6),equipo = equipoAzul))
+	// tablero.visualizar()
+	game.addVisual(marco)
+	config.configurarTeclas()
 	game.boardGround("map.png")
 	game.start()
 }
