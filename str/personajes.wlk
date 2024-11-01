@@ -14,6 +14,8 @@ class Entidad{
   }
   method morir(){
     tablero.borrarEntidad(self)
+    const sonidoMuerte = game.sound("sonido_muerte")
+    sonidoMuerte.play()
   }
 }
 
@@ -56,24 +58,27 @@ class Personaje inherits Entidad{
       return position
     }
   }
+
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
+    const sonidoAtaque = game.sound("sonido_ataque")
+    sonidoAtaque.play()
   }
 }
 
-class Monje inherits Personaje(vida = 5, danio = 10){
+class Monje inherits Personaje(vida = 5, danio = 2){
   //puede cambiar de bando a otros, sanar alrededor
   // el equipo es "Rojo" o "Azul"
   method tipo() = "Unidad"
   method image() = "monje"+ equipo.name() +".png"
   method nombre() = "monje"
 }
-class Infanteria inherits Personaje(vida = 5, danio = 10){
+class Infanteria inherits Personaje(vida = 50, danio = 10){
   method tipo() = "Unidad"
   method image() = "infanteria"+ equipo.name() +".png"
   method nombre() = "infanteria"
 }
-class Arquero inherits Personaje(vida = 5, danio = 10){
+class Arquero inherits Personaje(vida = 20, danio = 8){
   method tipo() = "Unidad"
   method image() = "arquero"+ equipo.name() +".png"
   method nombre() = "arquero"
@@ -87,11 +92,48 @@ object equipoAzul{
   method contrario() = equipoRojo
 }
 
-class Torre inherits Entidad(vida = 50, danio = 10){
+class Torre inherits Entidad(vida = 200, danio = 10){
   method tipo() = "Torre"
-  method image() = "castillo.png"
+  method image() = "castillo_age_2.png"
   override method cumplirObjetivoInicial(){}
+
+  method atacar(unPersonaje){
+    unPersonaje.recibirDanio(danio)
+    const sonidoAtaque = game.sound("sonido_ataque")
+    sonidoAtaque.play()
+  }
 }
+
+class TorreEnemiga inherits Torre(vida = 200, danio=20) {
+  override method image() = "castillo_age_enemigo.png"
+}
+
+class Estructura inherits Entidad {
+  const property tipo
+  const property image
+  
+  method mejorarTropa(unaTropa){
+    if (self.condicionDeMejora(unaTropa)) {
+      unaTropa.mejorar()
+    } else {
+      self.error('Esta tropa no puede ser mejorada acá')
+    }
+  }
+  method condicionDeMejora(unaTropa)
+}
+
+class Cuartel inherits Estructura(vida = 100, danio = 0) {
+  override method condicionDeMejora(unaTropa) {
+    return unaTropa.tipo() == self.tipo()
+  }
+}
+
+class Arqueria inherits Estructura(vida=50, danio=0) {
+  override method condicionDeMejora(unaTropa) {
+    return unaTropa.tipo() == self.tipo()
+  }
+}
+
 object marco{
   var property position = game.at(0,0)
   method image() = "marco.png"

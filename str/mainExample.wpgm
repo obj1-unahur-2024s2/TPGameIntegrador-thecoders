@@ -1,4 +1,3 @@
-
 import personajes.*
 import config.*
 
@@ -7,15 +6,21 @@ program PepitaGame {
 	game.width(15)
 	game.height(24)
 	game.cellSize(50)
-	tablero.agregarEntidad(new Torre(position = game.at(7,21),equipo = equipoRojo))
-	tablero.agregarEntidad(new Torre(position = game.at(3,17),equipo = equipoRojo))
-	tablero.agregarEntidad(new Torre(position = game.at(11,17),equipo = equipoRojo))
+	tablero.agregarEntidad(new TorreEnemiga(position = game.at(7,21),equipo = equipoRojo))
+	tablero.agregarEntidad(new TorreEnemiga(position = game.at(3,17),equipo = equipoRojo))
+	tablero.agregarEntidad(new TorreEnemiga(position = game.at(11,17),equipo = equipoRojo))
 	tablero.agregarEntidad(new Torre(position = game.at(7,2),equipo = equipoAzul))
 	tablero.agregarEntidad(new Torre(position = game.at(3,6),equipo = equipoAzul))
 	tablero.agregarEntidad(new Torre(position = game.at(11,6),equipo = equipoAzul))
+	tablero.agregarEntidad(new Estructura(position = game.at(11,2), equipo = equipoAzul))
+	tablero.agregarEntidad(new Estructura(position = game.at(3,2), equipo = equipoAzul))
 	// tablero.visualizar()
 	game.addVisual(marco)
 	config.configurarTeclas()
 	game.boardGround("map.png")
+	const sonidoAmbiente = game.sound("sonido_ambiente.mp3")
+	sonidoAmbiente.shouldLoop(true)
+	sonidoAmbiente.volume(0.3)
+	game.schedule(200, { sonidoAmbiente.play()} )
 	game.start()
 }
