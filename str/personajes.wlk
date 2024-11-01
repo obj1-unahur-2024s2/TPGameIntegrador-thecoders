@@ -59,6 +59,12 @@ class Personaje inherits Entidad{
     }
   }
 
+  method mejorar() {
+    self.efectoMejora()
+  }
+
+  method efectoMejora()
+
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
     const sonidoAtaque = game.sound("sonido_ataque")
@@ -72,16 +78,34 @@ class Monje inherits Personaje(vida = 5, danio = 2){
   method tipo() = "Unidad"
   method image() = "monje"+ equipo.name() +".png"
   method nombre() = "monje"
+
+  override method efectoMejora(){}
 }
 class Infanteria inherits Personaje(vida = 50, danio = 10){
+  var image =  "infanteria"+ equipo.name() +".png"
   method tipo() = "Unidad"
-  method image() = "infanteria"+ equipo.name() +".png"
+  method edificioDondeSeMejora() = "Cuartel"
+  method image() = image
   method nombre() = "infanteria"
+
+  override method efectoMejora() {
+    image = "campeon_age.png"
+    vida = 70
+    danio = 20
+  }
 }
 class Arquero inherits Personaje(vida = 20, danio = 8){
+  var image = "arquero"+ equipo.name() +".png"
   method tipo() = "Unidad"
-  method image() = "arquero"+ equipo.name() +".png"
+  method image() = image
   method nombre() = "arquero"
+  method edificioDondeSeMejora() = "Arqueria"
+  
+  override method efectoMejora() {
+    image = "ballestero_age.png"
+    danio = 12
+    vida = 30
+  }
 }
 object equipoRojo{
   method name()= "Rojo"
@@ -109,28 +133,42 @@ class TorreEnemiga inherits Torre(vida = 200, danio=20) {
 }
 
 class Estructura inherits Entidad {
-  const property tipo
-  const property image
-  
-  method mejorarTropa(unaTropa){
-    if (self.condicionDeMejora(unaTropa)) {
-      unaTropa.mejorar()
-    } else {
-      self.error('Esta tropa no puede ser mejorada acá')
+  var tropaDentro = null
+  method image()
+  method tipo()
+
+  method ponerTropa(unaTropa) {
+    tropaDentro = unaTropa
+  }
+
+  override method cumplirObjetivoInicial(){
+    self.mejorarTropa()
+  }
+
+  method mejorarTropa(){
+    if (tropaDentro != null and tropaDentro.edificioDondeSeMejora() == self.tipo()) {
+      tropaDentro.mejorar()
     }
   }
-  method condicionDeMejora(unaTropa)
 }
 
 class Cuartel inherits Estructura(vida = 100, danio = 0) {
-  override method condicionDeMejora(unaTropa) {
-    return unaTropa.tipo() == self.tipo()
+  override method image() {
+    return "cuartel_age.png"
+  } 
+
+  override method tipo() {
+    return "Cuartel"
   }
 }
 
 class Arqueria inherits Estructura(vida=50, danio=0) {
-  override method condicionDeMejora(unaTropa) {
-    return unaTropa.tipo() == self.tipo()
+  override method image() {
+    return "arqueria_age.png"
+  }
+
+  override method tipo() {
+    return "Arqueria"
   }
 }
 

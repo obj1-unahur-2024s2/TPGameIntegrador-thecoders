@@ -17,4 +17,9 @@ object config{
         keyboard.num2().onPressDo({tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
         keyboard.num3().onPressDo({tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
     }
+    method ponerMusica() {
+        const sonidoAmbiente = game.sound("sonido_ambiente.mp3")
+        sonidoAmbiente.shouldLoop(true)
+        sonidoAmbiente.volume(0.2)
+    }
 }
