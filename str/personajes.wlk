@@ -6,6 +6,11 @@ class Entidad{
   method equipo() = equipo
   method position() = position
   method cumplirObjetivoInicial()
+
+  //indicador de vida
+  method textColor() = "00FF00FF"
+  method text() = vida.stringValue()
+
   method recibirDanio(cantDanio){
     vida -= cantDanio
     if(vida<0){
@@ -42,21 +47,16 @@ class Personaje inherits Entidad{
     }
   }
   method proximaPosicionHacia(unaPosicion){
-    if (position.x() < unaPosicion.x()){
-      return position.right(1)
-    }
-    else if (position.x() > unaPosicion.x()){
-      return position.left(1)
-    }
-    else if (position.y() < unaPosicion.y()){
+    if (position.y() < unaPosicion.y())
       return position.up(1)
-    }
-    else if (position.y() > unaPosicion.y()){
+    else if (position.y() > unaPosicion.y())
       return position.down(1)
-    }
-    else{
+    else if (position.x() < unaPosicion.x())
+      return position.right(1)
+    else if (position.x() > unaPosicion.x())
+      return position.left(1)
+    else
       return position
-    }
   }
 
   method mejorar() {
@@ -75,6 +75,7 @@ class Personaje inherits Entidad{
 class Monje inherits Personaje(vida = 5, danio = 2){
   //puede cambiar de bando a otros, sanar alrededor
   // el equipo es "Rojo" o "Azul"
+
   method tipo() = "Unidad"
   method image() = "monje"+ equipo.name() +".png"
   method nombre() = "monje"
