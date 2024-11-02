@@ -22,4 +22,36 @@ object config{
         sonidoAmbiente.shouldLoop(true)
         sonidoAmbiente.volume(0.2)
     }
+    method ganar(){
+        game.sound("sonido-victoria.mp3").play()
+        game.schedule(3000, {game.stop()})
+        game.addVisual(notificacionDeVictoria)
+    }
+    method perder(){
+        game.sound("sonido-muerte.mp3").play()
+        game.schedule(3000, {game.stop()})
+        game.addVisual(notificacionDeDerrota)
+    }
+}
+
+object paleta {
+  const property verde = "00FF00FF"
+  const property rojo = "FF0000FF"
+}
+
+object notificacionDeVictoria {
+
+  method position() = game.center()
+
+  method text() = "HAS GANADO!!!!"
+
+  method textColor() = paleta.verde()
+}
+object notificacionDeDerrota {
+
+  method position() = game.center()
+
+  method text() = "A CASA MALO (exclamo el enemigo)"
+
+  method textColor() = paleta.verde()
 }

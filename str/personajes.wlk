@@ -1,3 +1,4 @@
+import config.*
 class Entidad{
   var vida
   var danio
@@ -29,10 +30,18 @@ class Personaje inherits Entidad{
     self.irATorreMasCercana()
   }
   method irATorreMasCercana(){
-    game.onTick(1000, "movete", {self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))})
+    game.onTick(100, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
   method irA(unaPosicion){
     game.onTick(1000, "movete", {self.moveteHacia(unaPosicion)})
+  }
+  method moveteHaciaTorreEnemigaMasCercanaSiHay(){
+    if(not tablero.torres(equipo.contrario()).isEmpty()){
+      self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
+    }
+    else{
+      game.removeTickEvent("movete")
+    }
   }
   method moveteHacia(unaPosicion){
     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
@@ -119,18 +128,24 @@ object equipoAzul{
 
 class Torre inherits Entidad(vida = 200, danio = 10){
   method tipo() = "Torre"
-  method image() = "castillo_age_2.png"
+  method image() = "castillo"+equipo.name()+".png"
   override method cumplirObjetivoInicial(){}
+
+  override method morir(){
+    super()
+    if(self.esLaUltimaTorre()){
+      if(equipo == equipoRojo){
+        config.ganar()
+      }
+    }
+  }
+  method esLaUltimaTorre() = tablero.torres(equipo).isEmpty()
 
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
     const sonidoAtaque = game.sound("sonido_ataque")
     sonidoAtaque.play()
   }
-}
-
-class TorreEnemiga inherits Torre(vida = 200, danio=20) {
-  override method image() = "castillo_age_enemigo.png"
 }
 
 class Estructura inherits Entidad {
@@ -202,11 +217,6 @@ object tablero{
     entidadesActivas.find({entidad => entidad.position() == unaPosicion})
 
   method posicionTorreEnemigaMasCercanaA(unaEntidad){
-    //aca se pierde o gana(todavia no funciona)
-    if (self.torres(unaEntidad.equipo().contrario()).isEmpty()){
-      self.error("gano "+ unaEntidad.equipo().name())
-      game.stop()
-    }
     return self.torreMasCercanaA(unaEntidad.position(),unaEntidad.equipo().contrario()).position()
   }
 }
