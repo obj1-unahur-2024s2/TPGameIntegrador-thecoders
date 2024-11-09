@@ -30,18 +30,18 @@ class Personaje inherits Entidad{
     self.irATorreMasCercana()
   }
   method irATorreMasCercana(){
-    game.onTick(100, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
+    game.onTick(1000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
   method irA(unaPosicion){
     game.onTick(1000, "movete", {self.moveteHacia(unaPosicion)})
   }
   method moveteHaciaTorreEnemigaMasCercanaSiHay(){
-    if(not tablero.torres(equipo.contrario()).isEmpty()){
-      self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
+    if(vida >= 0){
+      if(not tablero.torres(equipo.contrario()).isEmpty()){
+        self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
+      }
     }
-    else{
-      game.removeTickEvent("movete")
-    }
+
   }
   method moveteHacia(unaPosicion){
     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
@@ -136,6 +136,9 @@ class Torre inherits Entidad(vida = 200, danio = 10){
     if(self.esLaUltimaTorre()){
       if(equipo == equipoRojo){
         config.ganar()
+      }
+      if(equipo == equipoAzul){
+        config.perder()
       }
     }
   }

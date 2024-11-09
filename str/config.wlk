@@ -9,7 +9,7 @@ object config{
     method controlesMarco(){
 		keyboard.left().onPressDo({if(marco.position().x()>0) marco.position(marco.position().left(1))})
 		keyboard.right().onPressDo({if(marco.position().x()< game.width()-1) marco.position(marco.position().right(1))})
-		keyboard.up().onPressDo({if(marco.position().y()< alturaMax) marco.position(marco.position().up(1))})
+		keyboard.up().onPressDo({if(marco.position().y()< game.height()-1) marco.position(marco.position().up(1))})
 		keyboard.down().onPressDo({if(marco.position().y()>0) marco.position(marco.position().down(1))})
     }
     method elegirCarta(){
@@ -51,7 +51,7 @@ object notificacionDeDerrota {
 
   method position() = game.center()
 
-  method text() = "A CASA MALO (exclamo el enemigo)"
+  method text() = "A CASA MALO PERDISTE (exclamo el enemigo)"
 
-  method textColor() = paleta.verde()
+  method textColor() = paleta.rojo()
 }
