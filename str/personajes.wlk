@@ -1,3 +1,4 @@
+import enemigo.*
 import config.*
 class Entidad{
   var vida
@@ -250,8 +251,14 @@ object equipoAzul{
 class Torre inherits Entidad(vida = 200, danio = 10){
   method tipo() = "Torre"
   method image() = "castillo"+equipo.name()+".png"
-  override method cumplirObjetivoInicial(){}
-
+  override method cumplirObjetivoInicial(){
+    game.onTick(1000, "atacarAlRededor", {self.atacarAlRededor()})
+  }
+  method atacarAlRededor(){
+    //obtiene todos los enemigos a su aldedor
+    //les hace daño
+    tablero.enemigosAlRededor(self.position(),equipo.contrario()).forEach({e=> e.recibirDanio(danio)})
+  }
   override method morir(){
     super()
     if(self.esLaUltimaTorre()){
@@ -353,11 +360,8 @@ object tablero{
   method hayAlgoEn(unaPosicion)=
     entidadesActivas.any({entidad => entidad.position() == unaPosicion})
 
-  method hayAlgoAlRededor(unaPosicion)=
-    self.hayAlgoEn(unaPosicion + game.at(1,0)) or
-    self.hayAlgoEn(unaPosicion + game.at(0,1)) or
-    self.hayAlgoEn(unaPosicion + game.at(-1,0)) or
-    self.hayAlgoEn(unaPosicion + game.at(0,-1))
+  method enemigosAlRededor(unaPosicion,equipo)=
+    entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() == equipo})
 
 
   method entidadEn(unaPosicion) =
