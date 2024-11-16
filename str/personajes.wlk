@@ -26,12 +26,26 @@ class Entidad{
 }
 
 class Personaje inherits Entidad{
+  const costo //añado un costo 
   override method cumplirObjetivoInicial(){
     self.irATorreMasCercana()
   }
   method irATorreMasCercana(){
     game.onTick(1000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
+   // Verificar si hay suficiente oro para crear el personaje
+  method puedeColocarse() = 
+    equipo.tieneOro(costo)
+
+  method colocarPersonaje() {
+    if (self.puedeColocarse()) {
+      equipo.gastarOro(costo) // Resta el costo de oro
+      tablero.agregarEntidad(self) // Coloca el personaje en el tablero
+    } else {
+      throw("No hay suficiente oro para colocar el personaje")
+    }
+  }
+
   method irA(unaPosicion){
     game.onTick(1000, "movete", {self.moveteHacia(unaPosicion)})
   }
@@ -81,7 +95,7 @@ class Personaje inherits Entidad{
   }
 }
 
-class Monje inherits Personaje(vida = 5, danio = 2){
+class Monje inherits Personaje(vida = 5, danio = 2, costo = 3){
   //puede cambiar de bando a otros, sanar alrededor
   // el equipo es "Rojo" o "Azul"
 
@@ -91,7 +105,7 @@ class Monje inherits Personaje(vida = 5, danio = 2){
 
   override method efectoMejora(){}
 }
-class Infanteria inherits Personaje(vida = 50, danio = 10){
+class Infanteria inherits Personaje(vida = 50, danio = 10, costo = 6){
   var image =  "infanteria"+ equipo.name() +".png"
   method tipo() = "Unidad"
   method edificioDondeSeMejora() = "Cuartel"
@@ -104,26 +118,100 @@ class Infanteria inherits Personaje(vida = 50, danio = 10){
     danio = 20
   }
 }
-class Arquero inherits Personaje(vida = 20, danio = 8){
-  var image = "arquero"+ equipo.name() +".png"
+class Arquero inherits Personaje(vida = 20, danio = 8, costo = 4){
+  var image = "arquero" + equipo.name() + ".png"
+  const property rango = 3 // Rango de ataque del arquero
+
   method tipo() = "Unidad"
   method image() = image
   method nombre() = "arquero"
   method edificioDondeSeMejora() = "Arqueria"
-  
+
+  // Método para atacar considerando el rango
+  override method atacar(unPersonaje){
+    if (self.estaEnRango(unPersonaje.position())) { // Verifica si está dentro del rango
+      unPersonaje.recibirDanio(danio) // Inflige daño
+      const sonidoAtaque = game.sound("sonido_ataque")
+      sonidoAtaque.play()
+    }
+  }
+
+  // Verifica si una posición está dentro del rango del arquero
+  method estaEnRango(unaPosicion) =
+    position.distance(unaPosicion) <= rango
+
+  // Movimiento hacia la torre más cercana o ataques a distancia
+  override method moveteHaciaTorreEnemigaMasCercanaSiHay(){
+    if (vida >= 0) {
+      const torreEnemiga = tablero.torreMasCercanaA(position, equipo.contrario())
+      if (torreEnemiga != null) {
+        if (self.estaEnRango(torreEnemiga.position())) {
+          self.atacar(torreEnemiga)
+        } else {
+          self.moveteHacia(torreEnemiga.position())
+        }
+      }
+    }
+  }
+
+  // Mejora del arquero al convertirse en ballestero
   override method efectoMejora() {
     image = "ballestero_age.png"
     danio = 12
     vida = 30
   }
 }
-object equipoRojo{
+
+
+object equipoRojo {
+  var oro = 10 // Oro inicial
+  const property maxOro = 10 // Límite máximo de oro
+
   method name()= "Rojo"
   method contrario() = equipoAzul
+
+  // Método para verificar si hay suficiente oro
+  method tieneOro(cantidad) = oro >= cantidad
+
+  // Método para gastar oro
+  method gastarOro(cantidad) {
+    if (self.tieneOro(cantidad)) {
+      oro -= cantidad
+    } else {
+      throw("Oro insuficiente")
+    }
+  }
+
+  // Método para regenerar oro (hasta el máximo)
+  method regenerarOro() {
+    if (oro < maxOro) {
+      oro += 1
+    }
+  }
 }
+
+
 object equipoAzul{
+  var oro = 10
+  const property maxOro = 10
+  
   method name()= "Azul"
   method contrario() = equipoRojo
+
+    method tieneOro(cantidad) = oro >= cantidad
+    method gastarOro(cantidad) {
+    if (self.tieneOro(cantidad)) {
+      oro -= cantidad
+    } else {
+      throw("Oro insuficiente")
+    }
+  }
+
+  method regenerarOro() {
+    if (oro < maxOro) {
+      oro += 1
+    }
+  }
 }
 
 class Torre inherits Entidad(vida = 200, danio = 10){
@@ -223,6 +311,7 @@ object tablero{
     return self.torreMasCercanaA(unaEntidad.position(),unaEntidad.equipo().contrario()).position()
   }
 }
+
 // class PersonajeRango inherits Personaje{
 
 // }

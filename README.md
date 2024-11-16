@@ -4,6 +4,7 @@
 
 -Franco Iannone
 -Matias Jordan
+-Leandro Arnaldi
 
 ## Capturas
 

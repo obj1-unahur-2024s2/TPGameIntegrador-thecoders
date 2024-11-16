@@ -32,6 +32,17 @@ object config{
         game.schedule(3000, {game.stop()})
         game.addVisual(notificacionDeDerrota)
     }
+  //Regeneracion automatica del oro
+    method iniciarRegeneracionOro() {
+    game.onTick(1000, "regenerarOroEquipos", { 
+      equipoRojo.regenerarOro()
+      equipoAzul.regenerarOro()
+    })
+  }
+    // Método para mostrar oro en pantalla (No se como se hace todavia xd)
+  //method mostrarOro() {
+  //  game.displayText("Oro Rojo: " + equipoRojo.oro + " | Oro Azul: " + equipoAzul.oro, game.at(0, 0))
+ // }
 }
 
 object paleta {
