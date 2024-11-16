@@ -1,7 +1,6 @@
 import personajes.*
 object enemigo{
     const property personajes = ["infanteria"]
-    var oro = 0
     method initialize(){
         game.onTick(3000, "ponerEnemigo", {self.ponerEnemigoAleatorio()})
     }

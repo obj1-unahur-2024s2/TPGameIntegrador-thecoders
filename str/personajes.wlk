@@ -14,7 +14,7 @@ class Entidad{
 
   method recibirDanio(cantDanio){
     vida -= cantDanio
-    if(vida<0){
+    if(vida <= 0){
       self.morir()
     }
   }

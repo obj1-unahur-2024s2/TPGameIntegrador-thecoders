@@ -26,9 +26,13 @@ object config{
     }
         
     method ponerMusica() {
-        const sonidoAmbiente = game.sound("sonido_ambiente.mp3")
-        sonidoAmbiente.shouldLoop(true)
-        sonidoAmbiente.volume(0.2)
+        // const sonidoAmbiente = game.sound("sonido-victoria.mp3")
+        // game.sound("sonido-victoria.mp3")
+        // sonidoAmbiente.shouldLoop(true)
+        // sonidoAmbiente.volume(0.2)
+        const rain = game.sound("sonido-ambiente.mp3")
+        rain.shouldLoop(true)
+        game.schedule(500, { rain.play()} )
     }
     method ganar(){
         game.sound("sonido-victoria.mp3").play()
