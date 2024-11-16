@@ -289,7 +289,8 @@ class Cuartel inherits Estructura(vida = 100, danio = 0) {
   }
 }
 
-class Arqueria inherits Estructura(vida=50, danio=0) {
+class Arqueria inherits Estructura(vida=50, danio=0
+) {
   override method image() {
     return "arqueria_age.png"
   }
@@ -327,6 +328,7 @@ object tablero{
   }
 
   method tropas(equipo) = entidadesActivas.filter({entidad=>entidad.tipo() == "Unidad" and entidad.equipo() == equipo})
+  method cantTropas(equipo) = self.tropas(equipo).size()
   method tropaMasCercanaA(unaPosicion, equipo){
     return self.tropas(equipo).min({tropa => tropa.position().distance(unaPosicion)})
   }
@@ -336,6 +338,13 @@ object tablero{
 
   method hayAlgoEn(unaPosicion)=
     entidadesActivas.any({entidad => entidad.position() == unaPosicion})
+
+  method hayAlgoAlRededor(unaPosicion)=
+    self.hayAlgoEn(unaPosicion + game.at(1,0)) or
+    self.hayAlgoEn(unaPosicion + game.at(0,1)) or
+    self.hayAlgoEn(unaPosicion + game.at(-1,0)) or
+    self.hayAlgoEn(unaPosicion + game.at(0,-1))
+
 
   method entidadEn(unaPosicion) =
     entidadesActivas.find({entidad => entidad.position() == unaPosicion})
