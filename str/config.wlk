@@ -12,6 +12,12 @@ object config{
 		keyboard.up().onPressDo({if(marco.position().y()< game.height()-1) marco.position(marco.position().up(1))})
 		keyboard.down().onPressDo({if(marco.position().y()>0) marco.position(marco.position().down(1))})
     }
+
+    // Tenemos que hacer la lógica para poder mejorar la tropa, pero para eso debemos identificar cual es la tropa
+    // más cercana al marco en el que estamos posicionado (y que haya alguna de esas tropas)
+    // method mejorarTropa(unaTropa){
+    //     keyboard.num4().onPressDo({if(tablero.hayAlgunArquero()) tablero.tropaMasCercanaA().mejorarTropa()})
+    // }
     method elegirCarta(){
         keyboard.num1().onPressDo({tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))})
         keyboard.num2().onPressDo({tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
@@ -35,10 +41,10 @@ object config{
   //Regeneracion automatica del oro
     method iniciarRegeneracionOro() {
     game.onTick(1000, "regenerarOroEquipos", { 
-      equipoRojo.regenerarOro()
-      equipoAzul.regenerarOro()
+        equipoRojo.regenerarOro()
+        equipoAzul.regenerarOro()
     })
-  }
+}
     // Método para mostrar oro en pantalla (No se como se hace todavia xd)
   //method mostrarOro() {
   //  game.displayText("Oro Rojo: " + equipoRojo.oro + " | Oro Azul: " + equipoAzul.oro, game.at(0, 0))
@@ -46,23 +52,23 @@ object config{
 }
 
 object paleta {
-  const property verde = "00FF00FF"
-  const property rojo = "FF0000FF"
+    const property verde = "00FF00FF"
+    const property rojo = "FF0000FF"
 }
 
 object notificacionDeVictoria {
 
-  method position() = game.center()
+    method position() = game.center()
 
-  method text() = "HAS GANADO!!!!"
+    method text() = "HAS GANADO!!!!"
 
-  method textColor() = paleta.verde()
+    method textColor() = paleta.verde()
 }
 object notificacionDeDerrota {
 
-  method position() = game.center()
+    method position() = game.center()
 
-  method text() = "A CASA MALO PERDISTE (exclamo el enemigo)"
+    method text() = "A CASA MALO PERDISTE (exclamo el enemigo)"
 
-  method textColor() = paleta.rojo()
+    method textColor() = paleta.rojo()
 }

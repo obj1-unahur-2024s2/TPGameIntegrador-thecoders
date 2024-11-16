@@ -27,11 +27,17 @@ class Entidad{
 
 class Personaje inherits Entidad{
   const costo //añado un costo 
+
   override method cumplirObjetivoInicial(){
     self.irATorreMasCercana()
   }
+
   method irATorreMasCercana(){
     game.onTick(1000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
+  }
+
+  method irAEstructuraDeMejoraMasCercana() {
+    game.onTick(1000, "movete", {self.moveteHaciaEstructuraMasCercana()})
   }
    // Verificar si hay suficiente oro para crear el personaje
   method puedeColocarse() = 
@@ -49,14 +55,23 @@ class Personaje inherits Entidad{
   method irA(unaPosicion){
     game.onTick(1000, "movete", {self.moveteHacia(unaPosicion)})
   }
+
   method moveteHaciaTorreEnemigaMasCercanaSiHay(){
     if(vida >= 0){
       if(not tablero.torres(equipo.contrario()).isEmpty()){
         self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
       }
     }
-
   }
+
+  method moveteHaciaEstructuraMasCercana(){
+    if(vida >= 0){
+      self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
+    }
+  }
+
+
+
   method moveteHacia(unaPosicion){
     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
     if(position != proximaPosicion and tablero.hayAlgoEn(proximaPosicion)){
@@ -69,6 +84,7 @@ class Personaje inherits Entidad{
       position = proximaPosicion
     }
   }
+
   method proximaPosicionHacia(unaPosicion){
     if (position.y() < unaPosicion.y())
       return position.up(1)
@@ -82,11 +98,14 @@ class Personaje inherits Entidad{
       return position
   }
 
-  method mejorar() {
-    self.efectoMejora()
+  method mejorarPersonaje(unaEstructura) {
+    if (unaEstructura == self.edificioDondeSeMejora()) {
+      self.efectoMejora()
+    }
   }
 
   method efectoMejora()
+  method edificioDondeSeMejora()
 
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
@@ -104,19 +123,20 @@ class Monje inherits Personaje(vida = 5, danio = 2, costo = 3){
   method nombre() = "monje"
 
   override method efectoMejora(){}
+  override method edificioDondeSeMejora() = 'Monasterio'
 }
 class Infanteria inherits Personaje(vida = 50, danio = 10, costo = 6){
   var image =  "infanteria"+ equipo.name() +".png"
   method tipo() = "Unidad"
-  method edificioDondeSeMejora() = "Cuartel"
   method image() = image
-  method nombre() = "infanteria"
-
+  method nombre() = "Infantería"
+  override method edificioDondeSeMejora() = 'Cuartel'
   override method efectoMejora() {
     image = "campeon_age.png"
     vida = 70
     danio = 20
   }
+
 }
 class Arquero inherits Personaje(vida = 20, danio = 8, costo = 4){
   var image = "arquero" + equipo.name() + ".png"
@@ -124,8 +144,7 @@ class Arquero inherits Personaje(vida = 20, danio = 8, costo = 4){
 
   method tipo() = "Unidad"
   method image() = image
-  method nombre() = "arquero"
-  method edificioDondeSeMejora() = "Arqueria"
+  method nombre() = "Arquero"
 
   // Método para atacar considerando el rango
   override method atacar(unPersonaje){
@@ -153,7 +172,7 @@ class Arquero inherits Personaje(vida = 20, danio = 8, costo = 4){
       }
     }
   }
-
+  override method edificioDondeSeMejora() = 'Arqueria'
   // Mejora del arquero al convertirse en ballestero
   override method efectoMejora() {
     image = "ballestero_age.png"
@@ -244,6 +263,7 @@ class Estructura inherits Entidad {
   method image()
   method tipo()
 
+
   method ponerTropa(unaTropa) {
     tropaDentro = unaTropa
   }
@@ -299,7 +319,20 @@ object tablero{
 
   method torreMasCercanaA(unaPosicion,equipo){
     return self.torres(equipo).min({torre => torre.position().distance(unaPosicion)})
-  } 
+  }
+  
+  method estructuras() = entidadesActivas.filter({entidad=>entidad.tipo() == 'Cuartel' or entidad.tipo() == "Arqueria"})
+  method estructuraMasCercanaA(unaTropa){
+    return self.estructuras().min({estructura => estructura.position().distance(unaTropa.position())})
+  }
+
+  method tropas(equipo) = entidadesActivas.filter({entidad=>entidad.tipo() == "Unidad" and entidad.equipo() == equipo})
+  method tropaMasCercanaA(unaPosicion, equipo){
+    return self.tropas(equipo).min({tropa => tropa.position().distance(unaPosicion)})
+  }
+
+  method infanteriaDisponible(equipo) = self.tropas(equipo).filter({tropa => tropa.nombre() == 'Infantería'})
+  method arquerosDisponibles(equipo) = self.tropas(equipo).filter({tropa => tropa.nombre() == 'Arquero'})
 
   method hayAlgoEn(unaPosicion)=
     entidadesActivas.any({entidad => entidad.position() == unaPosicion})
@@ -310,6 +343,7 @@ object tablero{
   method posicionTorreEnemigaMasCercanaA(unaEntidad){
     return self.torreMasCercanaA(unaEntidad.position(),unaEntidad.equipo().contrario()).position()
   }
+
 }
 
 // class PersonajeRango inherits Personaje{
