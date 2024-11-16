@@ -23,10 +23,15 @@ class Entidad{
     const sonidoMuerte = game.sound("sonido_muerte")
     sonidoMuerte.play()
   }
+  method cambiarDeEquipo(){}
 }
 
 class Personaje inherits Entidad{
   const costo //añado un costo 
+
+  override method cambiarDeEquipo(){
+    equipo = equipo.contrario()
+  }
 
   override method cumplirObjetivoInicial(){
     self.irATorreMasCercana()
@@ -114,7 +119,7 @@ class Personaje inherits Entidad{
   }
 }
 
-class Monje inherits Personaje(vida = 5, danio = 2, costo = 3){
+class Monje inherits Personaje(vida = 50, danio = 2, costo = 3){
   //puede cambiar de bando a otros, sanar alrededor
   // el equipo es "Rojo" o "Azul"
 
@@ -124,15 +129,24 @@ class Monje inherits Personaje(vida = 5, danio = 2, costo = 3){
 
   override method efectoMejora(){}
   override method edificioDondeSeMejora() = 'Monasterio'
+
+  override method irATorreMasCercana(){
+    game.onTick(3000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
+  }
+  override method atacar(unPersonaje){
+    unPersonaje.cambiarDeEquipo()
+    unPersonaje.image()
+    const sonidoAtaque = game.sound("wololo.mp3")
+    sonidoAtaque.play()
+  }
 }
 class Infanteria inherits Personaje(vida = 50, danio = 10, costo = 6){
-  var image =  "infanteria"+ equipo.name() +".png"
   method tipo() = "Unidad"
-  method image() = image
+  method image() = "infanteria"+ equipo.name() +".png"
   method nombre() = "Infantería"
   override method edificioDondeSeMejora() = 'Cuartel'
   override method efectoMejora() {
-    image = "campeon_age.png"
+    
     vida = 70
     danio = 20
   }
