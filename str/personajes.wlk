@@ -63,7 +63,7 @@ class Personaje inherits Entidad{
   }
 
   method moveteHaciaTorreEnemigaMasCercanaSiHay(){
-    if(vida >= 0){
+    if(vida > 0){
       if(not tablero.torres(equipo.contrario()).isEmpty()){
         self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
       }
@@ -71,7 +71,7 @@ class Personaje inherits Entidad{
   }
 
   method moveteHaciaEstructuraMasCercana(){
-    if(vida >= 0){
+    if(vida > 0){
       self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
     }
   }
@@ -257,7 +257,8 @@ class Torre inherits Entidad(vida = 200, danio = 10){
   method atacarAlRededor(){
     //obtiene todos los enemigos a su aldedor
     //les hace daño
-    tablero.enemigosAlRededor(self.position(),equipo.contrario()).forEach({e=> e.recibirDanio(danio)})
+    if(vida > 0)
+      tablero.enemigosAlRededor(self.position(),equipo.contrario()).forEach({e=> e.recibirDanio(danio)})
   }
   override method morir(){
     super()
