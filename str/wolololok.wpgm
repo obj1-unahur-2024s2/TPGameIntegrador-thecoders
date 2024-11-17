@@ -1,5 +1,7 @@
 import personajes.*
 import config.*
+import interfazJuego.*
+import configInterfaz.*
 
 program PepitaGame {
 	game.title("pepita")
@@ -12,12 +14,16 @@ program PepitaGame {
 	tablero.agregarEntidad(new Torre(position = game.at(7,2),equipo = equipoAzul))
 	tablero.agregarEntidad(new Torre(position = game.at(3,6),equipo = equipoAzul))
 	tablero.agregarEntidad(new Torre(position = game.at(11,6),equipo = equipoAzul))
-	tablero.agregarEntidad(new Cuartel(position = game.at(11,2), equipo = equipoAzul))
-	tablero.agregarEntidad(new Arqueria(position = game.at(3,2), equipo = equipoAzul))
+	// Visualizar interfaz
+	interfaz.aparecerInterfaz()
+	configInterfaz.seleccionarDificultad()
+
 	// tablero.visualizar()
-	game.addVisual(marco)
 	config.configurarTeclas()
+
+	//config.ponerMusica()
 	config.ponerMusica()
+	
 	game.boardGround("map.png")
 	game.start()
 }

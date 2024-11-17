@@ -364,6 +364,9 @@ object tablero{
   method enemigosAlRededor(unaPosicion,equipo)=
     entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() == equipo})
 
+  method limpiar(){
+    self.entidadesActivas().clear()
+  }
 
   method entidadEn(unaPosicion) =
     entidadesActivas.find({entidad => entidad.position() == unaPosicion})
