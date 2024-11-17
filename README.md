@@ -9,7 +9,11 @@
 
 ## Capturas
 
-(agregar)
+<img src="imagenes del README/interfaz.png" alt="" width="200">
+<img src="imagenes del README/batalla.png" alt="" width="200">
+<img src="imagenes del README/victoria.png" alt="" width="200">
+<img src="imagenes del README/perder.png" alt="" width="200">
+
 
 ## Reglas de Juego 
 
