@@ -73,6 +73,7 @@ object config{
     method desPausar(){
         enemigo.initialize()
         marco.puedeMoverse(true)
+        tablero.descongelarEntidades()
     }
 
     method perder(){

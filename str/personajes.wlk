@@ -222,9 +222,9 @@ object marco{
   method image() = "marco.png"
   method moverA(unaPosicion){
     if(unaPosicion.x() >= 0 and unaPosicion.x() < game.width() and
-       unaPosicion.y() >= 0 and unaPosicion.y() < (game.height() / 2)
-        ){
-        position = unaPosicion
+       unaPosicion.y() >= 0 and unaPosicion.y() < (game.height() / 2) and puedeMoverse)
+    {
+      position = unaPosicion
     }
   }
 }
@@ -235,6 +235,13 @@ object tablero{
     game.addVisual(unaEntidad)
     entidadesActivas.add(unaEntidad)
     unaEntidad.cumplirObjetivoInicial()
+  }
+
+  method descongelarEntidades(){
+    entidadesActivas.forEach({e => e.cumplirObjetivoInicial()})
+  }
+  method congelarEntidades(){
+
   }
 
   method borrarEntidad(unaEntidad){
