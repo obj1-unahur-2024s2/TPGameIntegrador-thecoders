@@ -2,16 +2,21 @@ import config.*
 import interfazJuego.*
 import enemigo.*
 object configInterfaz {
+  var dificultadSeleccionada = false
   method seleccionarDificultad(){
       keyboard.d().onPressDo({
-        config.maximoTropas(7)
-        enemigo.maximoTropasEnemigo(10)
-        interfaz.cerrarInterfaz()
+        self.ponerDificultad(7,10)
       })
       keyboard.f().onPressDo({
-        config.maximoTropas(5)
-        enemigo.maximoTropasEnemigo(5)
-        interfaz.cerrarInterfaz()
+        self.ponerDificultad(5,5)
       })
+  }
+  method ponerDificultad(cantEnemigos,cantAliados){
+    if(!dificultadSeleccionada){
+      dificultadSeleccionada = true
+      config.maximoTropas(cantAliados)
+      enemigo.maximoTropasEnemigo(cantEnemigos)
+      interfaz.cerrarInterfaz()
+    }
   }
 }
