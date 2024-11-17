@@ -257,13 +257,21 @@ class Torre inherits Entidad(vida = 200, danio = 10){
     game.onTick(1000, "atacarAlRededor", {self.atacarAlRededor()})
   }
   method atacarAlRededor(){
+    // const sonidoAtaque = game.sound("trompeta.mp3")
+    // sonidoAtaque.volume(0.5)
+    // sonidoAtaque.play()
     //obtiene todos los enemigos a su aldedor
     //les hace daño
     if(vida > 0)
       tablero.enemigosAlRededor(self.position(),equipo.contrario()).forEach({e=> e.recibirDanio(danio)})
   }
+
   override method morir(){
     super()
+    const sonidoDestruccion = game.sound("sonido-destruccion.mp3")
+    sonidoDestruccion.volume(0.3)
+    sonidoDestruccion.play()
+
     if(self.esLaUltimaTorre()){
       if(equipo == equipoRojo){
         config.ganar()
@@ -279,48 +287,6 @@ class Torre inherits Entidad(vida = 200, danio = 10){
     unPersonaje.recibirDanio(danio)
     const sonidoAtaque = game.sound("sonido_ataque")
     sonidoAtaque.play()
-  }
-}
-
-class Estructura inherits Entidad {
-  var tropaDentro = null
-  method image()
-  method tipo()
-
-
-  method ponerTropa(unaTropa) {
-    tropaDentro = unaTropa
-  }
-
-  override method cumplirObjetivoInicial(){
-    self.mejorarTropa()
-  }
-
-  method mejorarTropa(){
-    if (tropaDentro != null and tropaDentro.edificioDondeSeMejora() == self.tipo()) {
-      tropaDentro.mejorar()
-    }
-  }
-}
-
-class Cuartel inherits Estructura(vida = 100, danio = 0) {
-  override method image() {
-    return "cuartel_age.png"
-  } 
-
-  override method tipo() {
-    return "Cuartel"
-  }
-}
-
-class Arqueria inherits Estructura(vida=50, danio=0
-) {
-  override method image() {
-    return "arqueria_age.png"
-  }
-
-  override method tipo() {
-    return "Arqueria"
   }
 }
 
