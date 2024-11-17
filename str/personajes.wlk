@@ -22,6 +22,7 @@ class Entidad{
   method morir(){
     tablero.borrarEntidad(self)
     const sonidoMuerte = game.sound("sonido-muerte.mp3")
+    sonidoMuerte.volume(0.3)
     sonidoMuerte.play()
   }
   method cambiarDeEquipo(){}
@@ -138,6 +139,7 @@ class Monje inherits Personaje(vida = 50, danio = 2, costo = 3){
     unPersonaje.cambiarDeEquipo()
     unPersonaje.image()
     const sonidoAtaque = game.sound("wololo.mp3")
+    sonidoAtaque.volume(0.3)
     sonidoAtaque.play()
   }
 }
