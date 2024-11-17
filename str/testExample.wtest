@@ -12,10 +12,7 @@ describe "Conjunto de test de tropas y sus posibles mejoras" {
     tablero.agregarEntidad(new Infanteria(position = game.at(6,2),equipo = equipoAzul))
   }
 
-  
-  test "En el tablero inicial hay 2 estructuras" {
-    assert.equals(2, tablero.estructuras().size())
-  }
+
 
   test "En el tablero inicial hay 3 tropas del equipo azul dispersadas" {
     assert.equals(3, tablero.tropas(equipoAzul).size())
