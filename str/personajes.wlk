@@ -219,6 +219,12 @@ class Torre inherits Entidad(vida = 200, danio = 10){
 object marco{
   var property position = game.at(0,0)
   method image() = "marco.png"
+  method moverA(unaPosicion){
+    if(unaPosicion.x() > 0 and unaPosicion.x() < game.width() - 1 and
+       unaPosicion.y() > 0 and unaPosicion.y() < (game.height() / 2 -1) ){
+        position = unaPosicion
+    }
+  }
 }
 object tablero{
   const property entidadesActivas = []
