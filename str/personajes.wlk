@@ -10,7 +10,7 @@ class Entidad{
   method cumplirObjetivoInicial()
 
   //indicador de vida
-  method textColor() = "00FF00FF"
+  method textColor() = equipo.color()
   method text() = vida.stringValue()
 
   method recibirDanio(cantDanio){
@@ -29,8 +29,6 @@ class Entidad{
 }
 
 class Personaje inherits Entidad{
-  const costo //añado un costo 
-
   override method cambiarDeEquipo(){
     equipo = equipo.contrario()
   }
@@ -41,22 +39,6 @@ class Personaje inherits Entidad{
 
   method irATorreMasCercana(){
     game.onTick(1000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
-  }
-
-  method irAEstructuraDeMejoraMasCercana() {
-    game.onTick(1000, "movete", {self.moveteHaciaEstructuraMasCercana()})
-  }
-   // Verificar si hay suficiente oro para crear el personaje
-  method puedeColocarse() = 
-    equipo.tieneOro(costo)
-
-  method colocarPersonaje() {
-    if (self.puedeColocarse()) {
-      equipo.gastarOro(costo) // Resta el costo de oro
-      tablero.agregarEntidad(self) // Coloca el personaje en el tablero
-    } else {
-      throw("No hay suficiente oro para colocar el personaje")
-    }
   }
 
   method irA(unaPosicion){
@@ -76,8 +58,6 @@ class Personaje inherits Entidad{
       self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
     }
   }
-
-
 
   method moveteHacia(unaPosicion){
     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
@@ -104,33 +84,20 @@ class Personaje inherits Entidad{
     else
       return position
   }
-
-  method mejorarPersonaje(unaEstructura) {
-    if (unaEstructura == self.edificioDondeSeMejora()) {
-      self.efectoMejora()
-    }
-  }
-
-  method efectoMejora()
-  method edificioDondeSeMejora()
-
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
-    const sonidoAtaque = game.sound("sonido_ataque")
+    const sonidoAtaque = game.sound("sonido-ataque")
     sonidoAtaque.play()
   }
 }
 
-class Monje inherits Personaje(vida = 50, danio = 2, costo = 3){
+class Monje inherits Personaje(vida = 50, danio = 2){
   //puede cambiar de bando a otros, sanar alrededor
   // el equipo es "Rojo" o "Azul"
 
   method tipo() = "Unidad"
   method image() = "monje"+ equipo.name() +".png"
   method nombre() = "monje"
-
-  override method efectoMejora(){}
-  override method edificioDondeSeMejora() = 'Monasterio'
 
   override method irATorreMasCercana(){
     game.onTick(3000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
@@ -143,31 +110,23 @@ class Monje inherits Personaje(vida = 50, danio = 2, costo = 3){
     sonidoAtaque.play()
   }
 }
-class Infanteria inherits Personaje(vida = 50, danio = 10, costo = 6){
+class Infanteria inherits Personaje(vida = 50, danio = 10){
   method tipo() = "Unidad"
   method image() = "infanteria"+ equipo.name() +".png"
   method nombre() = "Infantería"
-  override method edificioDondeSeMejora() = 'Cuartel'
-  override method efectoMejora() {
-    
-    vida = 70
-    danio = 20
-  }
-
 }
-class Arquero inherits Personaje(vida = 20, danio = 8, costo = 4){
-  var image = "arquero" + equipo.name() + ".png"
+class Arquero inherits Personaje(vida = 20, danio = 8){
   const property rango = 3 // Rango de ataque del arquero
 
   method tipo() = "Unidad"
-  method image() = image
+  method image() = "arquero" + equipo.name() + ".png"
   method nombre() = "Arquero"
 
   // Método para atacar considerando el rango
   override method atacar(unPersonaje){
     if (self.estaEnRango(unPersonaje.position())) { // Verifica si está dentro del rango
       unPersonaje.recibirDanio(danio) // Inflige daño
-      const sonidoAtaque = game.sound("sonido_ataque")
+      const sonidoAtaque = game.sound("sonido-ataque-arquero")
       sonidoAtaque.play()
     }
   }
@@ -189,65 +148,20 @@ class Arquero inherits Personaje(vida = 20, danio = 8, costo = 4){
       }
     }
   }
-  override method edificioDondeSeMejora() = 'Arqueria'
-  // Mejora del arquero al convertirse en ballestero
-  override method efectoMejora() {
-    image = "ballestero_age.png"
-    danio = 12
-    vida = 30
-  }
 }
 
 
 object equipoRojo {
-  var oro = 10 // Oro inicial
-  const property maxOro = 10 // Límite máximo de oro
-
   method name()= "Rojo"
   method contrario() = equipoAzul
-
-  // Método para verificar si hay suficiente oro
-  method tieneOro(cantidad) = oro >= cantidad
-
-  // Método para gastar oro
-  method gastarOro(cantidad) {
-    if (self.tieneOro(cantidad)) {
-      oro -= cantidad
-    } else {
-      throw("Oro insuficiente")
-    }
-  }
-
-  // Método para regenerar oro (hasta el máximo)
-  method regenerarOro() {
-    if (oro < maxOro) {
-      oro += 1
-    }
-  }
+  method color() = paleta.rojo()
 }
 
 
 object equipoAzul{
-  var oro = 10
-  const property maxOro = 10
-  
   method name()= "Azul"
   method contrario() = equipoRojo
-
-    method tieneOro(cantidad) = oro >= cantidad
-    method gastarOro(cantidad) {
-    if (self.tieneOro(cantidad)) {
-      oro -= cantidad
-    } else {
-      throw("Oro insuficiente")
-    }
-  }
-
-  method regenerarOro() {
-    if (oro < maxOro) {
-      oro += 1
-    }
-  }
+  method color() = paleta.verde()
 }
 
 class Torre inherits Entidad(vida = 200, danio = 10){
@@ -319,12 +233,10 @@ object tablero{
 
   method tropas(equipo) = entidadesActivas.filter({entidad=>entidad.tipo() == "Unidad" and entidad.equipo() == equipo})
   method cantTropas(equipo) = self.tropas(equipo).size()
+
   method tropaMasCercanaA(unaPosicion, equipo){
     return self.tropas(equipo).min({tropa => tropa.position().distance(unaPosicion)})
   }
-
-  method infanteriaDisponible(equipo) = self.tropas(equipo).filter({tropa => tropa.nombre() == 'Infantería'})
-  method arquerosDisponibles(equipo) = self.tropas(equipo).filter({tropa => tropa.nombre() == 'Arquero'})
 
   method hayAlgoEn(unaPosicion)=
     entidadesActivas.any({entidad => entidad.position() == unaPosicion})
@@ -344,63 +256,3 @@ object tablero{
   }
 
 }
-
-// class PersonajeRango inherits Personaje{
-
-// }
-// class PersonajeMele inherits Personaje{
-
-// }
-// class Estructura inherits Entidad{
-
-// }
-// object monje2{
-//   var property position = game.at(3, 15) 
-//   var property image = "monjestandingDownBlue0.png"
-// }
-// object monje{
-//   var equipo = equipoAzul
-//   method danio() = 10
-//   var position = game.at(5, 5) 
-//   method position() = position
-//   method fotograma(personaje,pose,direccion,color,numero){
-//     return personaje+pose+direccion+color+numero+".png"
-//   }
-//   method image() = self.fotograma('monje','walking','Down','Red','2')
-  
-//   method irA(unaPosicion){
-//     game.onTick(1000, "movete", {self.moveteHacia(unaPosicion)})
-//   }
-//   method moveteHacia(unaPosicion){
-//     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
-//     if(position != proximaPosicion and tablero.hayAlgoEn(proximaPosicion)){
-//       const objetivo = tablero.entidadEn(proximaPosicion)
-//       if(objetivo.equipo() != equipo){
-//         self.atacar(tablero.entidadEn(proximaPosicion))
-//       }
-//     }
-//     else{
-//       position = proximaPosicion
-//     }
-//   }
-//   method proximaPosicionHacia(unaPosicion){
-//     if (position.x() < unaPosicion.x()){
-//       return position.right(1)
-//     }
-//     else if (position.x() > unaPosicion.x()){
-//       return position.left(1)
-//     }
-//     else if (position.y() < unaPosicion.y()){
-//       return position.up(1)
-//     }
-//     else if (position.y() > unaPosicion.y()){
-//       return position.down(1)
-//     }
-//     else{
-//       return position
-//     }
-//   }
-//   method atacar(unPersonaje){
-//     unPersonaje.recibirDanio(self.danio())
-//   }
-// }
