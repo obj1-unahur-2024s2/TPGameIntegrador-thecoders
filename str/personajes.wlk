@@ -199,10 +199,10 @@ class Torre inherits Entidad(vida = 200, danio = 10){
 
     if(self.esLaUltimaTorre()){
       if(equipo == equipoRojo){
-        config.ganar()
+        juego.ganar()
       }
       if(equipo == equipoAzul){
-        config.perder()
+        juego.perder()
       }
     }
   }
@@ -275,6 +275,7 @@ object tablero{
     entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo()})
 
   method limpiar(){
+    self.entidadesActivas().forEach({e => game.removeVisual(e)})
     self.entidadesActivas().clear()
   }
 

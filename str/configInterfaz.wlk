@@ -3,6 +3,9 @@ import interfazJuego.*
 import enemigo.*
 object configInterfaz {
   var dificultadSeleccionada = false
+  method reiniciar(){
+    dificultadSeleccionada = false
+  }
   method seleccionarDificultad(){
       keyboard.d().onPressDo({
         self.ponerDificultad(7,10)
@@ -17,6 +20,8 @@ object configInterfaz {
       config.maximoTropas(cantAliados)
       enemigo.maximoTropasEnemigo(cantEnemigos)
       interfaz.cerrarInterfaz()
+      juego.iniciarJuego()
+      juego.desPausar()
     }
   }
 }
