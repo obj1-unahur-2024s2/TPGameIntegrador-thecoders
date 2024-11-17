@@ -68,9 +68,11 @@ object config{
     }
     method pausar(){
         game.removeTickEvent("comportamiento")
+        marco.puedeMoverse(false)
     }
     method desPausar(){
         enemigo.initialize()
+        marco.puedeMoverse(true)
     }
 
     method perder(){
