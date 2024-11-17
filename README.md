@@ -1,11 +1,8 @@
-# WOLLOLOK
+<h1> Wollolok </h1
 
-## Equipo de desarrollo
+<h3>Equipo de desarrollo</h3>
 
--Franco Iannone
--Matias Jordan
--Mateo Cimmino
--Leandro Arnaldi
+Franco Iannone, Matias Jordan, Mateo Cimmino y Leandro Arnaldi
 
 ## Capturas
 
@@ -17,20 +14,23 @@
 </p>
 
 
-
-## Reglas de Juego 
+<h2>Reglas del Juego</h2>
 
 El juego es una fusión entre Age Of Empires II y Clash Royale*
 
 Existen dos equipos, el azul y el rojo. Cada equipo cuenta con tres castillos a los que debe defender y tres tipos de tropas distintas: infantería, arqueros y monjes. Las tropas tienen atributos únicos que las diferencias del resto.
 
-Monjes: su movibilidad es más reducida que el resto. Cuenta con 50 puntos de vida y 2 puntos de daño. Su habildad es poder convertir a los enemigos del equipo rival a soldados propios. 
+El jugador podrá pulsar las teclas 1, 2 y 3 para colocar estratégicamente a su ejército. Cada tropa luchará con el enemigo siempre y cuando estén a <strong>un casillero de distancia</strong>. La cantidad de tropas que se podrán colocar dependerá del nivel de dificultad (explicado más abajo). 
 
-Arqueros: su movibilidad es la normal. Cuenta con 20 puntos de vida y 8 puntos de daño. Su habilidad es poder atacar a los castillos desde lejos, sin recibir daño de por medio.
+<h3>Tropas y castillos</h3>
 
-Infantería: su moviblidad es la normal. Cuenta con 50 puntos de vida y 10 puntos de daño. No tiene habilidades que lo diferencien del resto, solo produce daño cuerpo a cuerpo.
+<ul>
+  <li>Monjes: su velocidad de movimiento es más reducida que el resto. Cuenta con 50 puntos de vida y 2 puntos de daño. Su habildad es poder convertir a los enemigos del equipo rival a soldados propios. </li>
+  <li>Arqueros: su velocidad de movimiento es normal. Cuenta con 20 puntos de vida y 8 puntos de daño. Su habilidad es poder atacar a los castillos desde lejos, sin recibir daño de por medio.</li>
+  <li>Infantería: su velocidad de movimiento es normal. Cuenta con 50 puntos de vida y 10 puntos de daño. No tiene habilidades que lo diferencien del resto, solo produce daño cuerpo a cuerpo.</li>
+  <li>Castillos: cada castillo está ubicado en puntos específicos del mapa. Cuentan con 200 puntos de vida y 10 puntos de daño a todos los enemigos que estén posicionados en celdas lindantes. </li>
+</ul>
 
-Castillos: cada castillo está ubicado en puntos específicos del mapa. Cuentan con 200 puntos de vida y 10 puntos de daño a todos los enemigos que estén posicionados en celdas lindantes. 
 
 ## Dificultades
 <ul>
@@ -39,7 +39,7 @@ Castillos: cada castillo está ubicado en puntos específicos del mapa. Cuentan 
 </li>
 </ul>
 
-## Otros
+## Acerca del proyecto
 
 - Programación con Objetos comisión 1A - Universidad Nacional de Hurlingham (UNAHUR)
 - Versión de wollok - 0.2.7

@@ -11,6 +11,7 @@ object configInterfaz {
         self.ponerDificultad(5,5)
       })
   }
+  
   method ponerDificultad(cantEnemigos,cantAliados){
     if(!dificultadSeleccionada){
       dificultadSeleccionada = true
