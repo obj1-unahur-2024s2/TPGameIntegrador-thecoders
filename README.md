@@ -7,7 +7,8 @@ Franco Iannone, Matias Jordan, Mateo Cimmino y Leandro Arnaldi
 ## Capturas
 
 <p align="center">
-  <img src="imagenes del README/interfaz.png" alt="" width="150">
+  <img s![GIF-wollolok](https://github.com/user-attachments/assets/c17c9d2e-d556-43a4-ba96-47300decff7c)
+rc="imagenes del README/interfaz.png" alt="" width="150">
   <img src="imagenes del README/batalla.png" alt="" width="150">
   <img src="imagenes del README/victoria.png" alt="" width="150">
   <img src="imagenes del README/perder.png" alt="" width="150">

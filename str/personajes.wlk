@@ -38,11 +38,11 @@ class Personaje inherits Entidad{
   }
 
   method irATorreMasCercana(){
-    game.onTick(1000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
+    game.onTick(1000, "comportamiento", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
 
   method irA(unaPosicion){
-    game.onTick(1000, "movete", {self.moveteHacia(unaPosicion)})
+    game.onTick(1000, "comportamiento", {self.moveteHacia(unaPosicion)})
   }
 
   method moveteHaciaTorreEnemigaMasCercanaSiHay(){
@@ -111,7 +111,7 @@ class Monje inherits Personaje(vida = 50, danio = 2){
   method nombre() = "monje"
 
   override method irATorreMasCercana(){
-    game.onTick(3000, "movete", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
+    game.onTick(3000, "comportamiento", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
   override method atacar(unPersonaje){
     unPersonaje.cambiarDeEquipo()
@@ -150,7 +150,7 @@ class Arquero inherits Personaje(vida = 20, danio = 8){
 
   // Movimiento hacia la torre más cercana o ataques a distancia
   override method moveteHaciaTorreEnemigaMasCercanaSiHay(){
-    if (vida >= 0) {
+    if (vida > 0) {
       const torreEnemiga = tablero.torreMasCercanaA(position, equipo.contrario())
       if (torreEnemiga != null) {
         if (self.estaEnRango(torreEnemiga.position())) {
@@ -181,7 +181,7 @@ class Torre inherits Entidad(vida = 200, danio = 10){
   method tipo() = "Torre"
   method image() = "castillo"+equipo.name()+".png"
   override method cumplirObjetivoInicial(){
-    game.onTick(1000, "atacarAlRededor", {self.atacarAlRededor()})
+    game.onTick(1000, "comportamiento", {self.atacarAlRededor()})
   }
 
   method atacarAlRededor(){
@@ -218,7 +218,15 @@ class Torre inherits Entidad(vida = 200, danio = 10){
 
 object marco{
   var property position = game.at(0,0)
+  var property puedeMoverse = true
   method image() = "marco.png"
+  method moverA(unaPosicion){
+    if(unaPosicion.x() >= 0 and unaPosicion.x() < game.width() and
+       unaPosicion.y() >= 0 and unaPosicion.y() < (game.height() / 2) and puedeMoverse)
+    {
+      position = unaPosicion
+    }
+  }
 }
 object tablero{
   const property entidadesActivas = []
@@ -227,6 +235,13 @@ object tablero{
     game.addVisual(unaEntidad)
     entidadesActivas.add(unaEntidad)
     unaEntidad.cumplirObjetivoInicial()
+  }
+
+  method descongelarEntidades(){
+    entidadesActivas.forEach({e => e.cumplirObjetivoInicial()})
+  }
+  method congelarEntidades(){
+
   }
 
   method borrarEntidad(unaEntidad){
@@ -239,11 +254,6 @@ object tablero{
 
   method torreMasCercanaA(unaPosicion,equipo){
     return self.torres(equipo).min({torre => torre.position().distance(unaPosicion)})
-  }
-  
-  method estructuras() = entidadesActivas.filter({entidad=>entidad.tipo() == 'Cuartel' or entidad.tipo() == "Arqueria"})
-  method estructuraMasCercanaA(unaTropa){
-    return self.estructuras().min({estructura => estructura.position().distance(unaTropa.position())})
   }
 
   method tropas(equipo) = entidadesActivas.filter({entidad=>entidad.tipo() == "Unidad" and entidad.equipo() == equipo})

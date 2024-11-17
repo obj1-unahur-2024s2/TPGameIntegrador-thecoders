@@ -1,3 +1,4 @@
+import enemigo.*
 import personajes.*
 import game.*
 object config{
@@ -18,10 +19,10 @@ object config{
     // }
 
     method controlesMarco(){
-		keyboard.left().onPressDo({if(marco.position().x()>0) marco.position(marco.position().left(1))})
-		keyboard.right().onPressDo({if(marco.position().x()< game.width()-1) marco.position(marco.position().right(1))})
-		keyboard.up().onPressDo({if(marco.position().y()< (game.height() / 2 -1)) marco.position(marco.position().up(1))})
-		keyboard.down().onPressDo({if(marco.position().y()>0) marco.position(marco.position().down(1))})
+		keyboard.left().onPressDo({marco.moverA(marco.position().left(1))})
+		keyboard.right().onPressDo({marco.moverA(marco.position().right(1))})
+		keyboard.up().onPressDo({marco.moverA(marco.position().up(1))})
+		keyboard.down().onPressDo({marco.moverA(marco.position().down(1))})
     }
 
 
@@ -57,11 +58,22 @@ object config{
         keyboard.p().onPressDo({
             estaPausado != estaPausado
             if (!estaPausado) {
-                game.stop()
+                estaPausado = true
+                self.pausar()
             } else{
-                game.start()
+                self.desPausar()
+                estaPausado = false
             }
         })
+    }
+    method pausar(){
+        game.removeTickEvent("comportamiento")
+        marco.puedeMoverse(false)
+    }
+    method desPausar(){
+        enemigo.initialize()
+        marco.puedeMoverse(true)
+        tablero.descongelarEntidades()
     }
 
     method perder(){
