@@ -46,7 +46,6 @@ object config{
         sonidoVictoria.play()
         game.schedule(1000, {game.stop()})
         game.addVisual(notificacionDeVictoria)
-        game.addVisual(notificacionDeReinicio)
     }
 
     method reinicio() {
@@ -88,11 +87,6 @@ object notificacionDeVictoria {
     method textColor() = paleta.verde()
 }
 
-object notificacionDeReinicio {
-    method position()=game.at(6, 14)
-    method text() = "Pulsa la tecla 'R' para reiniciar"
-    method textColor() = paleta.white()
-}
 object notificacionDeDerrota {
 
     method position() = game.center()
