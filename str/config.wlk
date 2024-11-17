@@ -41,8 +41,10 @@ object config{
     //     game.schedule(500, { rain.play()} )
     // }
     method ganar(){
-        game.sound("sonido-victoria.mp3").play()
-        game.schedule(3000, {game.stop()})
+        const sonidoVictoria = game.sound("sonido-victoria.mp3")
+        sonidoVictoria.volume(0.5)
+        sonidoVictoria.play()
+        game.schedule(1000, {game.stop()})
         game.addVisual(notificacionDeVictoria)
         game.addVisual(notificacionDeReinicio)
     }
@@ -64,8 +66,9 @@ object config{
     }
 
     method perder(){
-        game.sound("sonido-muerte.mp3").play()
-        game.schedule(3000, {game.stop()})
+        const sonidoDerrota = game.sound("derrota.mp3")
+        sonidoDerrota.volume(0.3)
+        sonidoDerrota.play()
         game.addVisual(notificacionDeDerrota)
     }
 }

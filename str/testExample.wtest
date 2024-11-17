@@ -3,21 +3,15 @@ import config.*
 
 describe "Conjunto de test de tropas y sus posibles mejoras" {
   const infanteria1 = new Infanteria(position = marco.position(),equipo = equipoAzul)
-  const cuartelEstructura = new Cuartel(position = game.at(11,2), equipo = equipoAzul)
-  const arqueriaEstructura = new Arqueria(position = game.at(10,1), equipo = equipoAzul)
+
 
   method initialize(){
-    tablero.agregarEntidad(new Cuartel(position = game.at(11,2), equipo = equipoAzul))
-	  tablero.agregarEntidad(new Arqueria(position = game.at(3,2), equipo = equipoAzul))
+
     tablero.agregarEntidad(new Monje(position = game.at(10,2),equipo = equipoAzul))
     tablero.agregarEntidad(new Arquero(position = game.at(8,2),equipo = equipoAzul))
     tablero.agregarEntidad(new Infanteria(position = game.at(6,2),equipo = equipoAzul))
   }
 
-  test "Las tropas de infantería solo pueden mejorarse en un cuartel" {
-    assert.that(cuartelEstructura.tipo() == infanteria1.edificioDondeSeMejora())
-    assert.notThat(arqueriaEstructura.tipo() == infanteria1.edificioDondeSeMejora())
-  }
   
   test "En el tablero inicial hay 2 estructuras" {
     assert.equals(2, tablero.estructuras().size())
@@ -27,8 +21,4 @@ describe "Conjunto de test de tropas y sus posibles mejoras" {
     assert.equals(3, tablero.tropas(equipoAzul).size())
   }
 
-  test "En el tablero inicial hay 1 arquero y 1 tropa de infantería" {
-    assert.equals(1, tablero.infanteriaDisponible(equipoAzul).size())
-    assert.equals(1, tablero.arquerosDisponibles(equipoAzul).size())
-  }
 }

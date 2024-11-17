@@ -15,7 +15,4 @@ object enemigo{
 					(12..  game.height() - 1).anyOne()
 		) 
     }
-    // method ganarOro(cantidad){
-    //     oro += cantidad
-    // }
 }

@@ -3,8 +3,8 @@ import config.*
 import interfazJuego.*
 import configInterfaz.*
 
-program PepitaGame {
-	game.title("pepita")
+program Wollolok {
+	game.title("Wollolok")
 	game.width(15)
 	game.height(24)
 	game.cellSize(50)
@@ -14,14 +14,13 @@ program PepitaGame {
 	tablero.agregarEntidad(new Torre(position = game.at(7,2),equipo = equipoAzul))
 	tablero.agregarEntidad(new Torre(position = game.at(3,6),equipo = equipoAzul))
 	tablero.agregarEntidad(new Torre(position = game.at(11,6),equipo = equipoAzul))
+
 	// Visualizar interfaz
 	interfaz.aparecerInterfaz()
 	configInterfaz.seleccionarDificultad()
 
 	// tablero.visualizar()
 	config.configurarTeclas()
-
-	//config.ponerMusica()
 	
 	game.boardGround("map.png")
 	game.start()

@@ -22,7 +22,7 @@ class Entidad{
   method morir(){
     tablero.borrarEntidad(self)
     const sonidoMuerte = game.sound("sonido-muerte.mp3")
-    sonidoMuerte.volume(0.3)
+    sonidoMuerte.volume(0.1)
     sonidoMuerte.play()
   }
   method cambiarDeEquipo(){}
@@ -53,19 +53,27 @@ class Personaje inherits Entidad{
     }
   }
 
-  method moveteHaciaEstructuraMasCercana(){
-    if(vida > 0){
-      self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
-    }
-  }
+
+  // method moveteHacia(unaPosicion){
+  //   const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
+  //   if(position != proximaPosicion and tablero.hayAlgoEn(proximaPosicion)){
+  //     const objetivo = tablero.entidadEn(proximaPosicion)
+  //     if(objetivo.equipo() != equipo){
+  //       self.atacar(tablero.entidadEn(proximaPosicion))
+  //     }
+  //   }
+  //   else{
+  //     position = proximaPosicion
+  //   }
+  //}
 
   method moveteHacia(unaPosicion){
     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
-    if(position != proximaPosicion and tablero.hayAlgoEn(proximaPosicion)){
-      const objetivo = tablero.entidadEn(proximaPosicion)
-      if(objetivo.equipo() != equipo){
-        self.atacar(tablero.entidadEn(proximaPosicion))
-      }
+    if(position != proximaPosicion and (tablero.hayAlgoAlrededor(self.position(), self) or tablero.hayAlgoEn(proximaPosicion))){
+      const objetivos = tablero.enemigosAlRededor(self.position(), self)
+      objetivos.forEach({
+        objetivo => self.atacar(objetivo)
+      })
     }
     else{
       position = proximaPosicion
@@ -84,11 +92,14 @@ class Personaje inherits Entidad{
     else
       return position
   }
+
+
   method atacar(unPersonaje){
-    unPersonaje.recibirDanio(danio)
-    const sonidoAtaque = game.sound("sonido-ataque")
-    sonidoAtaque.play()
+      unPersonaje.recibirDanio(danio)
+      const sonidoAtaque = game.sound("sonido-ataque")
+      sonidoAtaque.play()
   }
+
 }
 
 class Monje inherits Personaje(vida = 50, danio = 2){
@@ -110,11 +121,13 @@ class Monje inherits Personaje(vida = 50, danio = 2){
     sonidoAtaque.play()
   }
 }
+
 class Infanteria inherits Personaje(vida = 50, danio = 10){
   method tipo() = "Unidad"
   method image() = "infanteria"+ equipo.name() +".png"
   method nombre() = "Infantería"
 }
+
 class Arquero inherits Personaje(vida = 20, danio = 8){
   const property rango = 3 // Rango de ataque del arquero
 
@@ -170,20 +183,18 @@ class Torre inherits Entidad(vida = 200, danio = 10){
   override method cumplirObjetivoInicial(){
     game.onTick(1000, "atacarAlRededor", {self.atacarAlRededor()})
   }
+
   method atacarAlRededor(){
-    // const sonidoAtaque = game.sound("trompeta.mp3")
-    // sonidoAtaque.volume(0.5)
-    // sonidoAtaque.play()
     //obtiene todos los enemigos a su aldedor
     //les hace daño
     if(vida > 0)
-      tablero.enemigosAlRededor(self.position(),equipo.contrario()).forEach({e=> e.recibirDanio(danio)})
+      tablero.enemigosAlRededor(self.position(),self).forEach({e=> e.recibirDanio(danio)})
   }
 
   override method morir(){
     super()
     const sonidoDestruccion = game.sound("sonido-destruccion.mp3")
-    sonidoDestruccion.volume(0.3)
+    sonidoDestruccion.volume(0.1)
     sonidoDestruccion.play()
 
     if(self.esLaUltimaTorre()){
@@ -199,7 +210,8 @@ class Torre inherits Entidad(vida = 200, danio = 10){
 
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
-    const sonidoAtaque = game.sound("sonido_ataque")
+    const sonidoAtaque = game.sound("trompeta.mp3")
+    sonidoAtaque.volume(0.1)
     sonidoAtaque.play()
   }
 }
@@ -210,15 +222,18 @@ object marco{
 }
 object tablero{
   const property entidadesActivas = []
+
   method agregarEntidad(unaEntidad){
     game.addVisual(unaEntidad)
     entidadesActivas.add(unaEntidad)
     unaEntidad.cumplirObjetivoInicial()
   }
+
   method borrarEntidad(unaEntidad){
     entidadesActivas.remove(unaEntidad)
     game.removeVisual(unaEntidad)
   }
+
   method torres(equipo) = 
     entidadesActivas.filter({entidad => entidad.tipo() == "Torre" and entidad.equipo() == equipo})
 
@@ -241,8 +256,13 @@ object tablero{
   method hayAlgoEn(unaPosicion)=
     entidadesActivas.any({entidad => entidad.position() == unaPosicion})
 
-  method enemigosAlRededor(unaPosicion,equipo)=
-    entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() == equipo})
+  method hayAlgoAlrededor(unaPosicion, tropa) {
+    return entidadesActivas.any({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo() and entidad.tipo() != "Torre"})  
+  }
+
+
+  method enemigosAlRededor(unaPosicion,tropa)=
+    entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo()})
 
   method limpiar(){
     self.entidadesActivas().clear()
@@ -250,6 +270,7 @@ object tablero{
 
   method entidadEn(unaPosicion) =
     entidadesActivas.find({entidad => entidad.position() == unaPosicion})
+  
 
   method posicionTorreEnemigaMasCercanaA(unaEntidad){
     return self.torreMasCercanaA(unaEntidad.position(),unaEntidad.equipo().contrario()).position()
