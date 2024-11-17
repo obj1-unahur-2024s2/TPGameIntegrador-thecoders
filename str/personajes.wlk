@@ -21,7 +21,7 @@ class Entidad{
   }
   method morir(){
     tablero.borrarEntidad(self)
-    const sonidoMuerte = game.sound("sonido_muerte")
+    const sonidoMuerte = game.sound("sonido-muerte.mp3")
     sonidoMuerte.play()
   }
   method cambiarDeEquipo(){}

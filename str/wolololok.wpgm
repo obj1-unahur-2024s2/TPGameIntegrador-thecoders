@@ -22,7 +22,6 @@ program PepitaGame {
 	config.configurarTeclas()
 
 	//config.ponerMusica()
-	config.ponerMusica()
 	
 	game.boardGround("map.png")
 	game.start()

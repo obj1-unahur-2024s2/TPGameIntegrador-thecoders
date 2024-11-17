@@ -10,12 +10,12 @@ object config{
         self.pausa()
 	}
 
-    method ponerMusica() {
-        const musicaAmbiente = game.sound("sonido-ambiente.mp3")
-	    musicaAmbiente.volume(0.2)
-        musicaAmbiente.shouldLoop(true)
-	    musicaAmbiente.play()
-    }
+    // method ponerMusica() {
+    //     const musicaAmbiente = game.sound("sonido-ambiente.mp3")
+	//     musicaAmbiente.volume(0.2)
+    //     musicaAmbiente.shouldLoop(true)
+	//     musicaAmbiente.play()
+    // }
 
     method controlesMarco(){
 		keyboard.left().onPressDo({if(marco.position().x()>0) marco.position(marco.position().left(1))})
