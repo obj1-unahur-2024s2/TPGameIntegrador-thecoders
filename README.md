@@ -9,10 +9,13 @@
 
 ## Capturas
 
-<img src="imagenes del README/interfaz.png" alt="" width="200">
-<img src="imagenes del README/batalla.png" alt="" width="200">
-<img src="imagenes del README/victoria.png" alt="" width="200">
-<img src="imagenes del README/perder.png" alt="" width="200">
+<p align="center">
+  <img src="imagenes del README/interfaz.png" alt="" width="150">
+  <img src="imagenes del README/batalla.png" alt="" width="150">
+  <img src="imagenes del README/victoria.png" alt="" width="150">
+  <img src="imagenes del README/perder.png" alt="" width="150">
+</p>
+
 
 
 ## Reglas de Juego 
