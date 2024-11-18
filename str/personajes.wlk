@@ -183,12 +183,35 @@ class Torre inherits Entidad(vida = 200, danio = 10){
   override method cumplirObjetivoInicial(){
     game.onTick(1000, "comportamiento", {self.atacarAlRededor()})
   }
+  
+  var trompetaTocada = false
+
+  // method atacarAlRededor(){
+  //   //obtiene todos los enemigos a su aldedor
+  //   //les hace daño
+  //   if(vida > 0)
+  //     tablero.enemigosAlRededor(self.position(),self).forEach({e=> e.recibirDanio(danio)})
+  //     const sonidoAtaque = game.sound("trompeta.mp3")
+  //     sonidoAtaque.volume(0.2)
+  //     sonidoAtaque.play()
+  // }
 
   method atacarAlRededor(){
-    //obtiene todos los enemigos a su aldedor
-    //les hace daño
-    if(vida > 0)
-      tablero.enemigosAlRededor(self.position(),self).forEach({e=> e.recibirDanio(danio)})
+    if (vida > 0) {
+      const objetivos = tablero.enemigosAlRededor(self.position(), self)
+      if (objetivos.size() >= 1) {
+        objetivos.forEach({
+          objetivo => self.atacar(objetivo)
+        })
+        if(!trompetaTocada) {
+          const sonidoAtaque = game.sound("trompeta.mp3")
+          sonidoAtaque.volume(0.1)
+          sonidoAtaque.play()
+          trompetaTocada = true
+          game.schedule(15000, {trompetaTocada = false})
+        }
+      }
+    }
   }
 
   override method morir(){
@@ -210,9 +233,6 @@ class Torre inherits Entidad(vida = 200, danio = 10){
 
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
-    const sonidoAtaque = game.sound("trompeta.mp3")
-    sonidoAtaque.volume(0.1)
-    sonidoAtaque.play()
   }
 }
 
