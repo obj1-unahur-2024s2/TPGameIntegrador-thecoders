@@ -3,6 +3,8 @@ import personajes.*
 import game.*
 import interfazJuego.*
 import configInterfaz.*
+import tablero.*
+import marco.*
 
 object config{
     var property maximoTropas = 0

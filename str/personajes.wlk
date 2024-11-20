@@ -1,5 +1,6 @@
 import enemigo.*
 import config.*
+import tablero.*
 class Entidad{
   var vida
   method cumplirObjetivoInicial()
@@ -196,15 +197,6 @@ class Torre inherits Entidad(vida = 200){
   
   var trompetaTocada = false
 
-  // method atacarAlRededor(){
-  //   //obtiene todos los enemigos a su aldedor
-  //   //les hace daño
-  //   if(vida > 0)
-  //     tablero.enemigosAlRededor(self.position(),self).forEach({e=> e.recibirDanio(danio)})
-  //     const sonidoAtaque = game.sound("trompeta.mp3")
-  //     sonidoAtaque.volume(0.2)
-  //     sonidoAtaque.play()
-  // }
 
   method atacarAlRededor(){
     if (vida > 0) {
@@ -243,76 +235,5 @@ class Torre inherits Entidad(vida = 200){
 
   method atacar(unPersonaje){
     unPersonaje.recibirDanio(danio)
-  }
-}
-
-object marco{
-  var property position = game.at(0,0)
-  var property puedeMoverse = true
-  method image() = "marco.png"
-  method moverA(unaPosicion){
-    if(unaPosicion.x() >= 0 and unaPosicion.x() < game.width() and
-      unaPosicion.y() < game.height() and
-      unaPosicion.y() >= 0 and unaPosicion.x() < (game.width() / 2) and puedeMoverse)
-    {
-      position = unaPosicion
-    }
-  }
-}
-object tablero{
-  const property entidadesActivas = []
-
-  method agregarEntidad(unaEntidad){
-    game.addVisual(unaEntidad)
-    entidadesActivas.add(unaEntidad)
-    unaEntidad.cumplirObjetivoInicial()
-  }
-
-  method descongelarEntidades(){
-    entidadesActivas.forEach({e => e.cumplirObjetivoInicial()})
-  }
-  method congelarEntidades(){
-
-  }
-
-  method borrarEntidad(unaEntidad){
-    entidadesActivas.remove(unaEntidad)
-    game.removeVisual(unaEntidad)
-  }
-
-  method torres(equipo) = 
-    entidadesActivas.filter({entidad => entidad.tipo() == "Torre" and entidad.equipo() == equipo})
-
-  method torreMasCercanaA(unaPosicion,equipo){
-    return self.torres(equipo).min({torre => torre.position().distance(unaPosicion)})
-  }
-
-  method tropas(equipo) = entidadesActivas.filter({entidad=>entidad.tipo() == "Unidad" and entidad.equipo() == equipo})
-  method cantTropas(equipo) = self.tropas(equipo).size()
-
-  method tropaMasCercanaA(unaPosicion, equipo){
-    return self.tropas(equipo).min({tropa => tropa.position().distance(unaPosicion)})
-  }
-
-  method hayAlgoEn(unaPosicion)=
-    entidadesActivas.any({entidad => entidad.position() == unaPosicion})
-
-  method hayAlgoAlrededor(unaPosicion, tropa) {
-    return entidadesActivas.any({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo() and entidad.tipo() != "Torre"})  
-  }
-
-  method enemigosAlRededor(unaPosicion,tropa)=
-    entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo()})
-
-  method limpiar(){
-    self.entidadesActivas().forEach({e => game.removeVisual(e)})
-    self.entidadesActivas().clear()
-  }
-
-  method entidadEn(unaPosicion) =
-    entidadesActivas.find({entidad => entidad.position() == unaPosicion})
-  
-  method posicionTorreEnemigaMasCercanaA(unaEntidad){
-    return self.torreMasCercanaA(unaEntidad.position(),unaEntidad.equipo().contrario()).position()
   }
 }

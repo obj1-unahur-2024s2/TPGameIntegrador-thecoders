@@ -1,5 +1,6 @@
 import configInterfaz.*
 import personajes.*
+import marco.*
 
 object interfaz {
   const property position = game.at(0,0)

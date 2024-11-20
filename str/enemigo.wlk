@@ -1,5 +1,6 @@
 import personajes.*
 import config.*
+import tablero.*
 object enemigo{
     const property personajes = ["infanteria","arquero","monje"]
     var property maximoTropasEnemigo = 0
