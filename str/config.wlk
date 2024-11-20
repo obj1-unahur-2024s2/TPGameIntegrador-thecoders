@@ -15,10 +15,10 @@ object config{
         self.pausa()
 	}
     method controlesMarco(){
-		keyboard.left().onPressDo({marco.moverA(marco.position().left(1))})
-		keyboard.right().onPressDo({marco.moverA(marco.position().right(1))})
-		keyboard.up().onPressDo({marco.moverA(marco.position().up(1))})
-		keyboard.down().onPressDo({marco.moverA(marco.position().down(1))})
+		keyboard.left().onPressDo({marco.intentarMoverA(marco.position().left(1))})
+		keyboard.right().onPressDo({marco.intentarMoverA(marco.position().right(1))})
+		keyboard.up().onPressDo({marco.intentarMoverA(marco.position().up(1))})
+		keyboard.down().onPressDo({marco.intentarMoverA(marco.position().down(1))})
     }
     method elegirCarta(){
         keyboard.num1().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()) tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))})

@@ -51,26 +51,10 @@ class Personaje inherits Entidad{
   }
 
   method moveteHaciaTorreEnemigaMasCercanaSiHay(){
-    if(vida > 0){
-      if(not tablero.torres(equipo.contrario()).isEmpty()){
-        self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
-      }
+    if(vida > 0 and not tablero.torres(equipo.contrario()).isEmpty()){
+      self.moveteHacia(tablero.posicionTorreEnemigaMasCercanaA(self))
     }
   }
-
-
-  // method moveteHacia(unaPosicion){
-  //   const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
-  //   if(position != proximaPosicion and tablero.hayAlgoEn(proximaPosicion)){
-  //     const objetivo = tablero.entidadEn(proximaPosicion)
-  //     if(objetivo.equipo() != equipo){
-  //       self.atacar(tablero.entidadEn(proximaPosicion))
-  //     }
-  //   }
-  //   else{
-  //     position = proximaPosicion
-  //   }
-  //}
 
   method moveteHacia(unaPosicion){
     const proximaPosicion =  self.proximaPosicionHacia(unaPosicion)
@@ -86,14 +70,14 @@ class Personaje inherits Entidad{
   }
 
   method proximaPosicionHacia(unaPosicion){
-    if (position.y() < unaPosicion.y())
-      return position.up(1)
-    else if (position.y() > unaPosicion.y())
-      return position.down(1)
-    else if (position.x() < unaPosicion.x())
+    if (position.x() < unaPosicion.x())
       return position.right(1)
     else if (position.x() > unaPosicion.x())
       return position.left(1)
+    else if (position.y() < unaPosicion.y())
+      return position.up(1)
+    else if (position.y() > unaPosicion.y())
+      return position.down(1)
     else
       return position
   }
@@ -134,6 +118,8 @@ class Infanteria inherits Personaje(vida = 50, danio = 10){
   method nombre() = "Infantería"
 }
 
+
+
 class Arquero inherits Personaje(vida = 20, danio = 8){
   const property rango = 3 // Rango de ataque del arquero
 
@@ -155,15 +141,14 @@ class Arquero inherits Personaje(vida = 20, danio = 8){
     position.distance(unaPosicion) <= rango
 
   // Movimiento hacia la torre más cercana o ataques a distancia
+  
   override method moveteHaciaTorreEnemigaMasCercanaSiHay(){
-    if (vida > 0) {
+    if (vida > 0 and not tablero.torres(equipo.contrario()).isEmpty()) {
       const torreEnemiga = tablero.torreMasCercanaA(position, equipo.contrario())
-      if (torreEnemiga != null) {
-        if (self.estaEnRango(torreEnemiga.position())) {
-          self.atacar(torreEnemiga)
-        } else {
-          self.moveteHacia(torreEnemiga.position())
-        }
+      if (self.estaEnRango(torreEnemiga.position())) {
+        self.atacar(torreEnemiga)
+      } else {
+        self.moveteHacia(torreEnemiga.position())
       }
     }
   }
@@ -191,12 +176,12 @@ class Torre inherits Entidad(vida = 200){
   method textColor() = equipo.color()
   method tipo() = "Torre"
   method image() = "castillo"+equipo.name()+".png"
+  
   override method cumplirObjetivoInicial(){
     game.onTick(1000, "comportamiento", {self.atacarAlRededor()})
   }
   
   var trompetaTocada = false
-
 
   method atacarAlRededor(){
     if (vida > 0) {
