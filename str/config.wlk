@@ -54,7 +54,8 @@ object config{
     method ponerMusica() {
         const musicaAmbiente = game.sound('sonido-ambiente.mp3')
         musicaAmbiente.volume(0.5)
-        musicaAmbiente.play()
+        musicaAmbiente.shouldLoop(true)
+        game.schedule(500, { musicaAmbiente.play()} )  
     }
 }
 

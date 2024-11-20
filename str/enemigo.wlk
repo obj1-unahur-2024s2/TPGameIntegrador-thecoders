@@ -2,7 +2,7 @@ import personajes.*
 import config.*
 import tablero.*
 object enemigo{
-    const property personajes = ["infanteria","arquero","monje"]
+    const property personajes = ["","infanteria","arquero","monje"]
     var property maximoTropasEnemigo = 0
     method iniciar(){
         game.onTick(2500, "comportamiento", {self.ponerEnemigoAleatorio()})

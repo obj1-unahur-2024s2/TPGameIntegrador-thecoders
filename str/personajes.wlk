@@ -85,7 +85,7 @@ class Personaje inherits Entidad{
 
   method atacar(unPersonaje){
       unPersonaje.recibirDanio(danio)
-      const sonidoAtaque = game.sound("sonido-ataque")
+      const sonidoAtaque = game.sound("espadazo.mp3")
       sonidoAtaque.play()
   }
 
@@ -116,6 +116,11 @@ class Infanteria inherits Personaje(vida = 50, danio = 10){
   method tipo() = "Unidad"
   method image() = "infanteria"+ equipo.name() +".png"
   method nombre() = "Infantería"
+  override method atacar(unPersonaje){
+      unPersonaje.recibirDanio(danio)
+      const sonidoAtaque = game.sound("espadazo.mp3")
+      sonidoAtaque.play()
+  }
 }
 
 
@@ -131,7 +136,8 @@ class Arquero inherits Personaje(vida = 20, danio = 8){
   override method atacar(unPersonaje){
     if (self.estaEnRango(unPersonaje.position())) { // Verifica si está dentro del rango
       unPersonaje.recibirDanio(danio) // Inflige daño
-      const sonidoAtaque = game.sound("sonido-ataque-arquero")
+      const sonidoAtaque = game.sound("flechazo.mp3")
+      sonidoAtaque.volume(0.3)
       sonidoAtaque.play()
     }
   }
@@ -176,7 +182,7 @@ class Torre inherits Entidad(vida = 200){
   method textColor() = equipo.color()
   method tipo() = "Torre"
   method image() = "castillo"+equipo.name()+".png"
-  
+
   override method cumplirObjetivoInicial(){
     game.onTick(1000, "comportamiento", {self.atacarAlRededor()})
   }
@@ -208,10 +214,10 @@ class Torre inherits Entidad(vida = 200){
     sonidoDestruccion.play()
 
     if(self.esLaUltimaTorre()){
-      if(equipo.color() == 'FFC900'){
+      if(equipo.name() == 'Rojo'){
         juego.ganar()
       }
-      if(equipo.color() == '00FF00FF'){
+      if(equipo.name() == 'Azul'){
         juego.perder()
       }
     }
