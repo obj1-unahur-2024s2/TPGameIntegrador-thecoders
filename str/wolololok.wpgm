@@ -10,12 +10,13 @@ program Wollolok {
 	game.cellSize(50)
 
 	// Visualizar interfaz
+	config.ponerMusica()
 	interfaz.aparecerInterfaz()
 	configInterfaz.seleccionarDificultad()
 
 	// tablero.visualizar()
 	config.configurarTeclas()
 	
-	game.boardGround("map.png")
+	game.boardGround("mapa.png")
 	game.start()
 }

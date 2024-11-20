@@ -2,15 +2,10 @@ import enemigo.*
 import config.*
 class Entidad{
   var vida
-  var danio
-  var equipo
-  var position
-  method equipo() = equipo
-  method position() = position
   method cumplirObjetivoInicial()
 
   //indicador de vida
-  method textColor() = equipo.color()
+
   method text() = vida.stringValue()
 
   method recibirDanio(cantDanio){
@@ -19,16 +14,25 @@ class Entidad{
       self.morir()
     }
   }
+
   method morir(){
     tablero.borrarEntidad(self)
     const sonidoMuerte = game.sound("sonido-muerte.mp3")
-    sonidoMuerte.volume(0.1)
+    sonidoMuerte.volume(0.3)
     sonidoMuerte.play()
   }
   method cambiarDeEquipo(){}
 }
 
 class Personaje inherits Entidad{
+  const danio
+  var equipo
+  var position
+
+  method equipo() = equipo
+  method position() = position
+  method textColor() = equipo.color()
+
   override method cambiarDeEquipo(){
     equipo = equipo.contrario()
   }
@@ -113,6 +117,7 @@ class Monje inherits Personaje(vida = 50, danio = 2){
   override method irATorreMasCercana(){
     game.onTick(3000, "comportamiento", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
+
   override method atacar(unPersonaje){
     unPersonaje.cambiarDeEquipo()
     unPersonaje.image()
@@ -163,13 +168,11 @@ class Arquero inherits Personaje(vida = 20, danio = 8){
   }
 }
 
-
 object equipoRojo {
   method name()= "Rojo"
   method contrario() = equipoAzul
   method color() = paleta.rojo()
 }
-
 
 object equipoAzul{
   method name()= "Azul"
@@ -177,7 +180,14 @@ object equipoAzul{
   method color() = paleta.verde()
 }
 
-class Torre inherits Entidad(vida = 200, danio = 10){
+class Torre inherits Entidad(vida = 200){
+  const danio = 10
+  const position
+  const equipo
+
+  method equipo() = equipo
+  method position() = position
+  method textColor() = equipo.color()
   method tipo() = "Torre"
   method image() = "castillo"+equipo.name()+".png"
   override method cumplirObjetivoInicial(){
@@ -205,7 +215,7 @@ class Torre inherits Entidad(vida = 200, danio = 10){
         })
         if(!trompetaTocada) {
           const sonidoAtaque = game.sound("trompeta.mp3")
-          sonidoAtaque.volume(0.1)
+          sonidoAtaque.volume(0.5)
           sonidoAtaque.play()
           trompetaTocada = true
           game.schedule(15000, {trompetaTocada = false})
@@ -217,14 +227,14 @@ class Torre inherits Entidad(vida = 200, danio = 10){
   override method morir(){
     super()
     const sonidoDestruccion = game.sound("sonido-destruccion.mp3")
-    sonidoDestruccion.volume(0.1)
+    sonidoDestruccion.volume(0.3)
     sonidoDestruccion.play()
 
     if(self.esLaUltimaTorre()){
-      if(equipo == equipoRojo){
+      if(equipo.color() == 'FFC900'){
         juego.ganar()
       }
-      if(equipo == equipoAzul){
+      if(equipo.color() == '00FF00FF'){
         juego.perder()
       }
     }
@@ -290,7 +300,6 @@ object tablero{
     return entidadesActivas.any({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo() and entidad.tipo() != "Torre"})  
   }
 
-
   method enemigosAlRededor(unaPosicion,tropa)=
     entidadesActivas.filter({entidad => entidad.position().distance(unaPosicion) == 1 and entidad.equipo() != tropa.equipo()})
 
@@ -302,9 +311,7 @@ object tablero{
   method entidadEn(unaPosicion) =
     entidadesActivas.find({entidad => entidad.position() == unaPosicion})
   
-
   method posicionTorreEnemigaMasCercanaA(unaEntidad){
     return self.torreMasCercanaA(unaEntidad.position(),unaEntidad.equipo().contrario()).position()
   }
-
 }

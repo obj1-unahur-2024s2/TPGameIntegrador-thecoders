@@ -4,7 +4,7 @@ object enemigo{
     const property personajes = ["infanteria","arquero","monje"]
     var property maximoTropasEnemigo = 0
     method iniciar(){
-        game.onTick(3000, "comportamiento", {self.ponerEnemigoAleatorio()})
+        game.onTick(2500, "comportamiento", {self.ponerEnemigoAleatorio()})
     }
     method ponerEnemigoAleatorio(){
         const personaje = personajes.anyOne()
