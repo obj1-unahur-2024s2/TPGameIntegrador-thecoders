@@ -3,7 +3,7 @@ import personajes.*
 
 object interfaz {
   const property position = game.at(0,0)
-  const property image = "papiro-interfaz.png"
+  const property image = "instrucciones.png"
   
   method aparecerInterfaz() {
     game.addVisual(self)

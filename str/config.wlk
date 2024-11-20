@@ -23,7 +23,7 @@ object config{
         keyboard.num2().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()) tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
         keyboard.num3().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
     }
- 
+
     // method ponerMusica() {
     //     // const sonidoAmbiente = game.sound("sonido-victoria.mp3")
     //     // game.sound("sonido-victoria.mp3")
@@ -79,12 +79,12 @@ object juego {
     var property estaIniciado = false
     method iniciarJuego(){
         estaIniciado = true
-        tablero.agregarEntidad(new Torre(position = game.at(7,21),equipo = equipoRojo))
-	    tablero.agregarEntidad(new Torre(position = game.at(3,17),equipo = equipoRojo))
-        tablero.agregarEntidad(new Torre(position = game.at(11,17),equipo = equipoRojo))
-        tablero.agregarEntidad(new Torre(position = game.at(7,2),equipo = equipoAzul))
-        tablero.agregarEntidad(new Torre(position = game.at(3,6),equipo = equipoAzul))
-        tablero.agregarEntidad(new Torre(position = game.at(11,6),equipo = equipoAzul))
+        tablero.agregarEntidad(new Torre(position = game.at(17, 11),equipo = equipoRojo))
+        tablero.agregarEntidad(new Torre(position = game.at(21,7),equipo = equipoRojo))
+        tablero.agregarEntidad(new Torre(position = game.at(17,3),equipo = equipoRojo))
+        tablero.agregarEntidad(new Torre(position = game.at(6,11),equipo = equipoAzul))
+        tablero.agregarEntidad(new Torre(position = game.at(2,7),equipo = equipoAzul))
+        tablero.agregarEntidad(new Torre(position = game.at(6,3),equipo = equipoAzul))
     }
     method ganar(){
         const sonidoVictoria = game.sound("sonido-victoria.mp3")

@@ -19,8 +19,8 @@ object enemigo{
     }
     method posicionAleatoriaEnemiga(){
         return 	game.at( 
-					(0 .. game.width() - 1 ).anyOne(),
-					(12..  game.height() - 1).anyOne()
+					(12 .. game.width() - 1 ).anyOne(),
+					(7..  game.height() - 1).anyOne()
 		) 
     }
 }
