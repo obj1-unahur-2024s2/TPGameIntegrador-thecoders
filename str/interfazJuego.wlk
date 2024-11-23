@@ -3,10 +3,11 @@ import instrucciones.*
 import configInterfaz.*
 import personajes.*
 import marco.*
+import config.*
 
 object interfaz {
   const property position = game.at(0,0)
-  const property image = "instrucciones.png"
+  const property image = "interfaz-inicio.png"
   
   method aparecerInterfaz() {
     game.addVisual(self)
@@ -14,8 +15,9 @@ object interfaz {
   }
 
   method cerrarInterfaz() {
+    // Cierra la interfaz para seleccionar dificultad y abre las instrucciones
     game.removeVisual(self)
     instrucciones.aparecerInstrucciones()
-    configInstrucciones.mostrarInstrucciones()
+    configInstrucciones.comenzarJuego()
   }
 }

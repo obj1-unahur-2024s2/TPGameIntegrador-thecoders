@@ -1,8 +1,10 @@
+import instrucciones.*
 import config.*
 import interfazJuego.*
 import enemigo.*
 object configInterfaz {
   var dificultadSeleccionada = false
+
   method reiniciar(){
     dificultadSeleccionada = false
   }
@@ -17,10 +19,10 @@ object configInterfaz {
   
   method ponerDificultad(cantEnemigos,cantAliados){
     if(!dificultadSeleccionada){
+      interfaz.cerrarInterfaz()
       dificultadSeleccionada = true
       config.maximoTropas(cantAliados)
       enemigo.maximoTropasEnemigo(cantEnemigos)
-      interfaz.cerrarInterfaz()
     }
   }
 }

@@ -12,6 +12,7 @@ object tablero{
   method descongelarEntidades(){
     entidadesActivas.forEach({e => e.cumplirObjetivoInicial()})
   }
+  
   method congelarEntidades(){
     
   }

@@ -1,3 +1,4 @@
+import instrucciones.*
 import enemigo.*
 import personajes.*
 import game.*
@@ -26,15 +27,6 @@ object config{
         keyboard.num3().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
     }
 
-    // method ponerMusica() {
-    //     // const sonidoAmbiente = game.sound("sonido-victoria.mp3")
-    //     // game.sound("sonido-victoria.mp3")
-    //     // sonidoAmbiente.shouldLoop(true)
-    //     // sonidoAmbiente.volume(0.2)
-    //     const rain = game.sound("sonido-ambiente.mp3")
-    //     rain.shouldLoop(true)
-    //     game.schedule(500, { rain.play()} )
-    // }
     method reinicio() {
         keyboard.r().onPressDo({juego.reiniciar()})     
     }
@@ -51,12 +43,7 @@ object config{
             }
         })
     }
-    method ponerMusica() {
-        const musicaAmbiente = game.sound('sonido-ambiente.mp3')
-        musicaAmbiente.volume(0.5)
-        musicaAmbiente.shouldLoop(true)
-        game.schedule(500, { musicaAmbiente.play()} )  
-    }
+
 }
 
 object paleta {
@@ -72,7 +59,6 @@ object notificacionDeVictoria {
 }
 
 object notificacionDeDerrota {
-
     method position() = game.center()
     method text() = "A CASA MALO PERDISTE (exclamó el enemigo)  presiona R para reintentar"
     method textColor() = paleta.rojo()
@@ -80,17 +66,25 @@ object notificacionDeDerrota {
 
 object juego {
     var property estaIniciado = false
+    const musicaAmbiente = game.sound('musica-ambiente.mp3')
+    const sonidoDerrota = game.sound("derrota.mp3")
+    const sonidoVictoria = game.sound("sonido-victoria.mp3")
+    
     method iniciarJuego(){
-        estaIniciado = true
-        tablero.agregarEntidad(new Torre(position = game.at(17, 11),equipo = equipoRojo))
-        tablero.agregarEntidad(new Torre(position = game.at(21,7),equipo = equipoRojo))
-        tablero.agregarEntidad(new Torre(position = game.at(17,3),equipo = equipoRojo))
-        tablero.agregarEntidad(new Torre(position = game.at(6,11),equipo = equipoAzul))
-        tablero.agregarEntidad(new Torre(position = game.at(2,7),equipo = equipoAzul))
-        tablero.agregarEntidad(new Torre(position = game.at(6,3),equipo = equipoAzul))
+        if (!estaIniciado){
+            estaIniciado = true
+            tablero.agregarEntidad(new Torre(position = game.at(17, 11),equipo = equipoRojo))
+            tablero.agregarEntidad(new Torre(position = game.at(21,7),equipo = equipoRojo))
+            tablero.agregarEntidad(new Torre(position = game.at(17,3),equipo = equipoRojo))
+            tablero.agregarEntidad(new Torre(position = game.at(6,11),equipo = equipoAzul))
+            tablero.agregarEntidad(new Torre(position = game.at(2,7),equipo = equipoAzul))
+            tablero.agregarEntidad(new Torre(position = game.at(6,3),equipo = equipoAzul))
+            musicaAmbiente.volume(0.3)
+            musicaAmbiente.shouldLoop(true)
+            musicaAmbiente.play()
+        }
     }
     method ganar(){
-        const sonidoVictoria = game.sound("sonido-victoria.mp3")
         sonidoVictoria.volume(0.3)
         sonidoVictoria.play()
         self.pausar()
@@ -101,9 +95,11 @@ object juego {
             game.removeVisual(notificacionDeVictoria)
             game.removeVisual(notificacionDeDerrota)
             estaIniciado = false
+            musicaAmbiente.stop()
             self.pausar()
             tablero.limpiar()
-            // // Visualizar interfaz
+            instrucciones.estaCerrado(false)
+            // // Visualizar interfaz otra vez
             interfaz.aparecerInterfaz()
             configInterfaz.reiniciar()
             configInterfaz.seleccionarDificultad()
@@ -120,7 +116,6 @@ object juego {
     }
 
     method perder(){
-        const sonidoDerrota = game.sound("derrota.mp3")
         sonidoDerrota.volume(0.3)
         sonidoDerrota.play()
         self.pausar()

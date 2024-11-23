@@ -3,15 +3,9 @@ import config.*
 import interfazJuego.*
 import enemigo.*
 object configInstrucciones {
-  method mostrarInstrucciones(){
+  method comenzarJuego(){
       keyboard.c().onPressDo({
-        self.avanzarInstrucciones()
+        instrucciones.cerrarInstrucciones()
       })
-  }
-
-  method avanzarInstrucciones() {
-    instrucciones.cerrarInstrucciones()
-    juego.iniciarJuego()
-    juego.desPausar()
   }
 }
