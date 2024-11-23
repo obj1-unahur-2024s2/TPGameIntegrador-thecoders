@@ -201,7 +201,7 @@ class Torre inherits Entidad(vida = 200){
           sonidoAtaque.volume(0.5)
           sonidoAtaque.play()
           trompetaTocada = true
-          game.schedule(15000, {trompetaTocada = false})
+          game.schedule(5000, {trompetaTocada = false})
         }
       }
     }

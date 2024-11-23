@@ -21,8 +21,6 @@ object configInterfaz {
       config.maximoTropas(cantAliados)
       enemigo.maximoTropasEnemigo(cantEnemigos)
       interfaz.cerrarInterfaz()
-      juego.iniciarJuego()
-      juego.desPausar()
     }
   }
 }

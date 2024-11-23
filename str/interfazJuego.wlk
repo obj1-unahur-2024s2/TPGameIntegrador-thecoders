@@ -1,3 +1,5 @@
+import configInstrucciones.*
+import instrucciones.*
 import configInterfaz.*
 import personajes.*
 import marco.*
@@ -13,6 +15,7 @@ object interfaz {
 
   method cerrarInterfaz() {
     game.removeVisual(self)
-    game.addVisual(marco)
+    instrucciones.aparecerInstrucciones()
+    configInstrucciones.mostrarInstrucciones()
   }
 }

@@ -12,7 +12,6 @@ object marco{
   }
   method esPosicionValida(unaPosicion){
     return unaPosicion.x() >= 0 and unaPosicion.x() < game.width() / 2 and
-           unaPosicion.y() >= 0 and unaPosicion.y() < game.height()
-      
+    unaPosicion.y() >= 0 and unaPosicion.y() < game.height()
   }
 }
