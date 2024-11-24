@@ -79,6 +79,8 @@ object juego {
             tablero.agregarEntidad(new Torre(position = game.at(6,11),equipo = equipoAzul))
             tablero.agregarEntidad(new Torre(position = game.at(2,7),equipo = equipoAzul))
             tablero.agregarEntidad(new Torre(position = game.at(6,3),equipo = equipoAzul))
+            tablero.agregarTeclasInstrucciones(teclaPausa)
+            tablero.agregarTeclasInstrucciones(teclaReinicio)
             musicaAmbiente.volume(0.3)
             musicaAmbiente.shouldLoop(true)
             musicaAmbiente.play()
@@ -142,4 +144,19 @@ object juego {
             game.addVisual(notificacionDeDerrota)
         }
     }
+}
+
+class Teclas {
+    method image()
+    method position()
+}
+
+object teclaPausa inherits Teclas {
+    override method image() = "tecla-pausaer.png"
+    override method position() = game.at(25,15)
+}
+
+object teclaReinicio inherits Teclas {
+    override method image() = "tecla-reinicio.png"
+    override method position() = game.at(25,12)
 }

@@ -2,11 +2,17 @@ import personajes.*
 
 object tablero{
   const property entidadesActivas = []
+  const property teclasInstruciones = []
 
   method agregarEntidad(unaEntidad){
     game.addVisual(unaEntidad)
     entidadesActivas.add(unaEntidad)
     unaEntidad.cumplirObjetivoInicial()
+  }
+
+  method agregarTeclasInstrucciones(unaTecla) {
+    game.addVisual(unaTecla)
+    teclasInstruciones.add(unaTecla)
   }
 
   method descongelarEntidades(){
@@ -48,7 +54,9 @@ object tablero{
 
   method limpiar(){
     self.entidadesActivas().forEach({e => game.removeVisual(e)})
+    self.teclasInstruciones().forEach({e => game.removeVisual(e)})
     self.entidadesActivas().clear()
+    self.teclasInstruciones().clear()
   }
 
   method entidadEn(unaPosicion) =

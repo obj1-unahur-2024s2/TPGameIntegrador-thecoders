@@ -7,10 +7,10 @@ Franco Iannone, Matias Jordan, Mateo Cimmino y Leandro Arnaldi
 ## Capturas
 
 <p align="center">
-  <img src="imagenes del README/GIF-wollolok-liviano.gif" width="150">
-  <img src="imagenes del README/batalla.png" alt="" width="150">
-  <img src="imagenes del README/victoria.png" alt="" width="150">
-  <img src="imagenes del README/perder.png" alt="" width="150">
+  <img src="imagenes del README/interfaz.jpg" alt="" width="500">
+  <img src="imagenes del README/instrucciones.jpg" alt="" width="500">
+  <img src="imagenes del README/Partida iniciada.png" alt="" width="500">
+  <img src="imagenes del README/GIF-juego.gif" width="500">
 </p>
 
 
