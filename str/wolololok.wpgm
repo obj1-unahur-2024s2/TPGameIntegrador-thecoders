@@ -4,7 +4,7 @@ import interfazJuego.*
 import configInterfaz.*
 import instrucciones.*
 import configInstrucciones.*
-program Wollolok {
+proitgram Wollolok {
 	game.title("Wollolok")
 	game.width(24)
 	game.height(15)
@@ -15,9 +15,9 @@ program Wollolok {
 	interfaz.aparecerInterfaz()
 	configInterfaz.seleccionarDificultad()
 
+	config.configurarTeclas()
 
 	// tablero.visualizar()
-	config.configurarTeclas()
 	
 	game.boardGround("mapa-rotado.png")
 	game.start()

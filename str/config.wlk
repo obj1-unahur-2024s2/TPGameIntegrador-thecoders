@@ -15,6 +15,7 @@ object config{
         self.reinicio()
         self.pausa()
 	}
+
     method controlesMarco(){
 		keyboard.left().onPressDo({marco.intentarMoverA(marco.position().left(1))})
 		keyboard.right().onPressDo({marco.intentarMoverA(marco.position().right(1))})
@@ -22,9 +23,9 @@ object config{
 		keyboard.down().onPressDo({marco.intentarMoverA(marco.position().down(1))})
     }
     method elegirCarta(){
-        keyboard.num1().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()) tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))})
-        keyboard.num2().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()) tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
-        keyboard.num3().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
+        keyboard.num1().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()  and instrucciones.estaCerrado()) tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))})
+        keyboard.num2().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas() and instrucciones.estaCerrado()) tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
+        keyboard.num3().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()  and instrucciones.estaCerrado())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
     }
 
     method reinicio() {
@@ -66,6 +67,7 @@ object notificacionDeDerrota {
 
 object juego {
     var property estaIniciado = false
+    var property partidaTerminada = false
     const musicaAmbiente = game.sound('musica-ambiente.mp3')
     const sonidoDerrota = game.sound("derrota.mp3")
     const sonidoVictoria = game.sound("sonido-victoria.mp3")
@@ -85,20 +87,27 @@ object juego {
         }
     }
     method ganar(){
-        sonidoVictoria.volume(0.3)
-        sonidoVictoria.play()
-        self.pausar()
-        game.addVisual(notificacionDeVictoria)
+        if (!partidaTerminada) {
+            self.pausar()
+            partidaTerminada = true      
+            sonidoVictoria.volume(0.3)
+            sonidoVictoria.play()
+            game.addVisual(notificacionDeVictoria)
+        }
     }
     method reiniciar(){
         if(estaIniciado){
             game.removeVisual(notificacionDeVictoria)
             game.removeVisual(notificacionDeDerrota)
+
             estaIniciado = false
+            partidaTerminada = false
+
             musicaAmbiente.stop()
             self.pausar()
             tablero.limpiar()
             instrucciones.estaCerrado(false)
+            
             // // Visualizar interfaz otra vez
             interfaz.aparecerInterfaz()
             configInterfaz.reiniciar()
@@ -116,9 +125,12 @@ object juego {
     }
 
     method perder(){
-        sonidoDerrota.volume(0.3)
-        sonidoDerrota.play()
-        self.pausar()
-        game.addVisual(notificacionDeDerrota)
+        if (!partidaTerminada) {
+            partidaTerminada = true
+            sonidoDerrota.volume(0.3)
+            sonidoDerrota.play()
+            self.pausar()
+            game.addVisual(notificacionDeDerrota)
+        }
     }
 }

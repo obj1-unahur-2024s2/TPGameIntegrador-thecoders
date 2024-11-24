@@ -14,8 +14,8 @@ object instrucciones {
     if (!estaCerrado) {
       estaCerrado = true  
       game.removeVisual(self)
-      juego.iniciarJuego()
       juego.desPausar()
+      juego.iniciarJuego()
       game.addVisual(marco)
     }
   }
