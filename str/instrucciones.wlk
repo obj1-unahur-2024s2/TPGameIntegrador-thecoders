@@ -1,6 +1,6 @@
 import marco.*
 import config.*
-
+import configInstrucciones.*
 object instrucciones {
   const property position = game.at(0,0)
   const property image = "instrucciones-wollolok-2.png"
@@ -8,6 +8,7 @@ object instrucciones {
   
   method aparecerInstrucciones() {
     game.addVisual(self)
+    configInstrucciones.comenzarJuego()
   }
 
   method cerrarInstrucciones() {

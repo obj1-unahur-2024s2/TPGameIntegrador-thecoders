@@ -18,6 +18,5 @@ object interfaz {
     // Cierra la interfaz para seleccionar dificultad y abre las instrucciones
     game.removeVisual(self)
     instrucciones.aparecerInstrucciones()
-    configInstrucciones.comenzarJuego()
   }
 }

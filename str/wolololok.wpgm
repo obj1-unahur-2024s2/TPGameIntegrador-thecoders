@@ -4,7 +4,7 @@ import interfazJuego.*
 import configInterfaz.*
 import instrucciones.*
 import configInstrucciones.*
-proitgram Wollolok {
+program Wollolok {
 	game.title("Wollolok")
 	game.width(24)
 	game.height(15)

@@ -173,7 +173,7 @@ object equipoAzul{
 }
 
 class Torre inherits Entidad(vida = 200){
-  const danio = 10
+  const danio = 15
   const position
   const equipo
 
@@ -208,7 +208,7 @@ class Torre inherits Entidad(vida = 200){
   }
 
   override method morir(){
-    super()
+    tablero.borrarEntidad(self)
     const sonidoDestruccion = game.sound("sonido-destruccion.mp3")
     sonidoDestruccion.volume(0.3)
     sonidoDestruccion.play()
@@ -220,6 +220,7 @@ class Torre inherits Entidad(vida = 200){
       if(equipo.name() == 'Azul'){
         juego.perder()
       }
+      juego.partidaTerminada(true)
     }
   }
   method esLaUltimaTorre() = tablero.torres(equipo).isEmpty()

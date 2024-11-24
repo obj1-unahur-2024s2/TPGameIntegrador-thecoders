@@ -69,8 +69,6 @@ object juego {
     var property estaIniciado = false
     var property partidaTerminada = false
     const musicaAmbiente = game.sound('musica-ambiente.mp3')
-    const sonidoDerrota = game.sound("derrota.mp3")
-    const sonidoVictoria = game.sound("sonido-victoria.mp3")
     
     method iniciarJuego(){
         if (!estaIniciado){
@@ -88,8 +86,10 @@ object juego {
     }
     method ganar(){
         if (!partidaTerminada) {
-            self.pausar()
             partidaTerminada = true      
+            self.pausar() 
+            console.println('ejecutando ganar')
+            const sonidoVictoria = game.sound("sonido-victoria.mp3")
             sonidoVictoria.volume(0.3)
             sonidoVictoria.play()
             game.addVisual(notificacionDeVictoria)
@@ -97,21 +97,29 @@ object juego {
     }
     method reiniciar(){
         if(estaIniciado){
+            // Sacamos las alertas de victoria o derrota
             game.removeVisual(notificacionDeVictoria)
             game.removeVisual(notificacionDeDerrota)
 
+            // Reiniciar flags
             estaIniciado = false
             partidaTerminada = false
+            instrucciones.estaCerrado(false)
 
+            // Pausamos la música
             musicaAmbiente.stop()
+        
+            // Limpiamos el juiego
             self.pausar()
             tablero.limpiar()
-            instrucciones.estaCerrado(false)
             
-            // // Visualizar interfaz otra vez
+            // Visualizar interfaz otra vez
             interfaz.aparecerInterfaz()
             configInterfaz.reiniciar()
             configInterfaz.seleccionarDificultad()
+        }
+        else {
+            partidaTerminada = false
         }
     }
     method pausar(){
@@ -127,6 +135,7 @@ object juego {
     method perder(){
         if (!partidaTerminada) {
             partidaTerminada = true
+            const sonidoDerrota = game.sound("derrota.mp3")
             sonidoDerrota.volume(0.3)
             sonidoDerrota.play()
             self.pausar()
