@@ -1,4 +1,6 @@
+import instrucciones.*
 import personajes.*
+import config.*
 
 object tablero{
   const property entidadesActivas = []
@@ -8,6 +10,15 @@ object tablero{
     game.addVisual(unaEntidad)
     entidadesActivas.add(unaEntidad)
     unaEntidad.cumplirObjetivoInicial()
+  }
+
+
+  method puedeColocarCarta() {
+    var puede = false
+      if ((self.tropas(equipoAzul).size() < config.maximoTropas()) and instrucciones.estaCerrado()) {
+        puede = true
+    }
+    return puede
   }
 
   method agregarTeclasInstrucciones(unaTecla) {

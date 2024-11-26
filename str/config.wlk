@@ -22,10 +22,11 @@ object config{
 		keyboard.up().onPressDo({marco.intentarMoverA(marco.position().up(1))})
 		keyboard.down().onPressDo({marco.intentarMoverA(marco.position().down(1))})
     }
+    
     method elegirCarta(){
-        keyboard.num1().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()  and instrucciones.estaCerrado()) tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))})
-        keyboard.num2().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas() and instrucciones.estaCerrado()) tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
-        keyboard.num3().onPressDo({if(tablero.tropas(equipoAzul).size() < self.maximoTropas()  and instrucciones.estaCerrado())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
+        keyboard.num1().onPressDo({if(tablero.puedeColocarCarta()) tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))else {notificacionDeAlertaMaximaEntidades.mostrarNotificacion()}})
+        keyboard.num2().onPressDo({if(tablero.puedeColocarCarta()) tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))else {notificacionDeAlertaMaximaEntidades.mostrarNotificacion()}})
+        keyboard.num3().onPressDo({if(tablero.puedeColocarCarta())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))else {notificacionDeAlertaMaximaEntidades.mostrarNotificacion()}})
     }
 
     method reinicio() {
@@ -65,6 +66,16 @@ object notificacionDeDerrota {
     method textColor() = paleta.rojo()
 }
 
+object notificacionDeAlertaMaximaEntidades {
+    method position() = game.center()
+    method text() = 'Máximo de tropas alcanzadas'
+    method textColor() = paleta.rojo()
+    method mostrarNotificacion() {
+        game.addVisual(self)
+        game.schedule(1000, { game.removeVisual(self) })
+    }
+}
+
 object juego {
     var property estaIniciado = false
     var property partidaTerminada = false
@@ -90,7 +101,6 @@ object juego {
         if (!partidaTerminada) {
             partidaTerminada = true      
             self.pausar() 
-            console.println('ejecutando ganar')
             const sonidoVictoria = game.sound("sonido-victoria.mp3")
             sonidoVictoria.volume(0.3)
             sonidoVictoria.play()
@@ -103,7 +113,7 @@ object juego {
             game.removeVisual(notificacionDeVictoria)
             game.removeVisual(notificacionDeDerrota)
 
-            // Reiniciar flags
+            // Reiniciamos las flags
             estaIniciado = false
             partidaTerminada = false
             instrucciones.estaCerrado(false)
