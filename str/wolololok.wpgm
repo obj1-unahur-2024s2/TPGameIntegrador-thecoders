@@ -10,7 +10,6 @@ program Wollolok {
 	game.height(15)
 	game.cellSize(50)
 
-
 	// Visualizar interfaz
 	interfaz.aparecerInterfaz()
 	configInterfaz.seleccionarDificultad()

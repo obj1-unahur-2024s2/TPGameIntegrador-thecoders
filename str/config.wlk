@@ -41,6 +41,7 @@ object config{
                 juego.pausar()
             } else{
                 juego.desPausar()
+                notificacionDePausa.ocultarNotificacion()
                 estaPausado = false
             }
         })
@@ -66,13 +67,31 @@ object notificacionDeDerrota {
     method textColor() = paleta.rojo()
 }
 
+object notificacionDePausa {
+    var property seEstaMostrando = false
+    method position() = game.center()
+    method text() = 'Juego pausado, pulse la tecla P para despausar'
+    method textColor() = paleta.white()
+    method mostrarNotificacion() {
+        game.addVisual(self)
+    }
+    method ocultarNotificacion() {
+        game.removeVisual(self)
+    }
+}
+
 object notificacionDeAlertaMaximaEntidades {
+    var property seEstaMostrando = false
     method position() = game.center()
     method text() = 'Máximo de tropas alcanzadas'
     method textColor() = paleta.rojo()
     method mostrarNotificacion() {
-        game.addVisual(self)
-        game.schedule(1000, { game.removeVisual(self) })
+        if (!seEstaMostrando) {
+            game.addVisual(self)
+            seEstaMostrando = true
+        }
+        game.schedule(2000, {game.removeVisual(self)})
+        game.schedule(2000, {self.seEstaMostrando(false)})
     }
 }
 
@@ -136,6 +155,7 @@ object juego {
     }
     method pausar(){
         game.removeTickEvent("comportamiento")
+        notificacionDePausa.mostrarNotificacion()
         marco.puedeMoverse(false)
     }
     method desPausar(){
