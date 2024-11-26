@@ -41,7 +41,6 @@ object config{
                 juego.pausar()
             } else{
                 juego.desPausar()
-                notificacionDePausa.ocultarNotificacion()
                 estaPausado = false
             }
         })
@@ -119,7 +118,7 @@ object juego {
     method ganar(){
         if (!partidaTerminada) {
             partidaTerminada = true      
-            self.pausar() 
+            self.pararJuego()
             const sonidoVictoria = game.sound("sonido-victoria.mp3")
             sonidoVictoria.volume(0.3)
             sonidoVictoria.play()
@@ -141,7 +140,7 @@ object juego {
             musicaAmbiente.stop()
         
             // Limpiamos el juiego
-            self.pausar()
+            self.pararJuego()
             tablero.limpiar()
             
             // Visualizar interfaz otra vez
@@ -154,11 +153,18 @@ object juego {
         }
     }
     method pausar(){
-        game.removeTickEvent("comportamiento")
+        self.pararJuego()
         notificacionDePausa.mostrarNotificacion()
-        marco.puedeMoverse(false)
     }
     method desPausar(){
+        self.continuarJuego()
+        notificacionDePausa.ocultarNotificacion()
+    }
+    method pararJuego(){
+        game.removeTickEvent("comportamiento")
+        marco.puedeMoverse(false)
+    }
+    method continuarJuego(){
         enemigo.iniciar()
         marco.puedeMoverse(true)
         tablero.descongelarEntidades()
