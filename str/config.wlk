@@ -55,22 +55,19 @@ object paleta {
 }
 
 object notificacionDeVictoria {
-    method position() = game.center()
-    method text() = "HAS GANADO!!!!  presiona R para reintentar"
-    method textColor() = paleta.verde()
+    method position() = game.at(2,8)
+    method image() = "ganar-notif.png"
 }
 
 object notificacionDeDerrota {
-    method position() = game.center()
-    method text() = "A CASA MALO PERDISTE (exclamó el enemigo)  presiona R para reintentar"
-    method textColor() = paleta.rojo()
+    method position() = game.at(2,8)
+    method image() = "ganar-notif.png"
 }
 
 object notificacionDePausa {
     var property seEstaMostrando = false
-    method position() = game.center()
-    method text() = 'Juego pausado, pulse la tecla P para despausar'
-    method textColor() = paleta.white()
+    method position() = game.at(2,8)
+    method image() = "ganar-notif.png"
     method mostrarNotificacion() {
         game.addVisual(self)
     }
