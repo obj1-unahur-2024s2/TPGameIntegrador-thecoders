@@ -7,7 +7,7 @@ import config.*
 
 object interfaz {
   const property position = game.at(0,0)
-  const property image = "interfaz-inicio.png"
+  const property image = "interfaz-definitiva2.png"
   
   method aparecerInterfaz() {
     game.addVisual(self)
