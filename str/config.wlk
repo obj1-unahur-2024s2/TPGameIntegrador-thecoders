@@ -176,7 +176,7 @@ object juego {
             const sonidoDerrota = game.sound("derrota.mp3")
             sonidoDerrota.volume(0.3)
             sonidoDerrota.play()
-            self.pausar()
+            self.pararJuego()
             game.addVisual(notificacionDeDerrota)
         }
     }
