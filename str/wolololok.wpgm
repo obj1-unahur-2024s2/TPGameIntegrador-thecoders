@@ -6,8 +6,8 @@ import instrucciones.*
 import configInstrucciones.*
 program Wollolok {
 	game.title("Wollolok")
-	game.width(24)
-	game.height(15)
+	game.width(25)
+	game.height(11)
 	game.cellSize(50)
 
 	// Visualizar interfaz
@@ -18,6 +18,6 @@ program Wollolok {
 
 	// tablero.visualizar()
 	
-	game.boardGround("mapa-rotado.png")
+	game.boardGround("mapa-con-ui.png")
 	game.start()
 }
