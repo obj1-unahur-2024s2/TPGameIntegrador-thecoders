@@ -11,7 +11,7 @@ object marco{
     }
   }
   method esPosicionValida(unaPosicion){
-    return unaPosicion.x() >= 0 and unaPosicion.x() < 11 and
+    return unaPosicion.x() >= 0 and unaPosicion.x() < game.width() and
     unaPosicion.y() >= 0 and unaPosicion.y() < game.height()
   }
 }
