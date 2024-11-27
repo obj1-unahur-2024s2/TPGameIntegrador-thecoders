@@ -24,9 +24,9 @@ object config{
     }
     
     method elegirCarta(){
-        keyboard.num1().onPressDo({if(tablero.puedeColocarCarta()) tablero.agregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))else {notificacionDeAlertaMaximaEntidades.mostrarNotificacion()}})
-        keyboard.num2().onPressDo({if(tablero.puedeColocarCarta()) tablero.agregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))else {notificacionDeAlertaMaximaEntidades.mostrarNotificacion()}})
-        keyboard.num3().onPressDo({if(tablero.puedeColocarCarta())tablero.agregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))else {notificacionDeAlertaMaximaEntidades.mostrarNotificacion()}})
+        keyboard.num1().onPressDo({tablero.intentarAgregarEntidad(new Monje(position = marco.position(),equipo = equipoAzul))})
+        keyboard.num2().onPressDo({tablero.intentarAgregarEntidad(new Arquero(position = marco.position(),equipo = equipoAzul))})
+        keyboard.num3().onPressDo({tablero.intentarAgregarEntidad(new Infanteria(position = marco.position(),equipo = equipoAzul))})
     }
 
     method reinicio() {

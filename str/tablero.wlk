@@ -6,6 +6,13 @@ object tablero{
   const property entidadesActivas = []
   const property teclasInstruciones = []
 
+  method intentarAgregarEntidad(unaEntidad){
+    if(self.puedeColocarCarta()) 
+      self.agregarEntidad(unaEntidad)
+    else 
+      notificacionDeAlertaMaximaEntidades.mostrarNotificacion()
+  }
+
   method agregarEntidad(unaEntidad){
     game.addVisual(unaEntidad)
     entidadesActivas.add(unaEntidad)
