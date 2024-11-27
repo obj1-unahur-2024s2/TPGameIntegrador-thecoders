@@ -54,20 +54,27 @@ object paleta {
     const property white = "FAFAFA"
 }
 
+// Las notificaciones podríamos hacerlas una clase
+
 object notificacionDeVictoria {
-    method position() = game.at(2,8)
-    method image() = "ganar-notif.png"
+    method position() = game.at(0,0)
+    method image() = "mensaje-victoria-nuevo.png"
+    method mostrarNotificacion() {
+        game.addVisual(self)
+    }
+    method ocultarNotificacion() {
+        game.removeVisual(self)
+    }
 }
 
 object notificacionDeDerrota {
-    method position() = game.at(2,8)
-    method image() = "ganar-notif.png"
+    method position() = game.at(0,0)
+    method image() = "mensaje-derrota.png"
 }
 
 object notificacionDePausa {
-    var property seEstaMostrando = false
-    method position() = game.at(2,8)
-    method image() = "ganar-notif.png"
+    method position() = game.at(0,0)
+    method image() = "mensaje-pausa-acomodado.png"
     method mostrarNotificacion() {
         game.addVisual(self)
     }
@@ -114,7 +121,7 @@ object juego {
     }
     method ganar(){
         if (!partidaTerminada) {
-            partidaTerminada = true      
+            partidaTerminada = true   
             self.pararJuego()
             const sonidoVictoria = game.sound("sonido-victoria.mp3")
             sonidoVictoria.volume(0.3)
@@ -168,9 +175,10 @@ object juego {
     }
 
     method perder(){
+        // Inicializamos la constante de sonido derrota acá para que no haya problemas al reiniciar
         if (!partidaTerminada) {
             partidaTerminada = true
-            const sonidoDerrota = game.sound("derrota.mp3")
+            const sonidoDerrota = game.sound("sonido-derrota.mp3")
             sonidoDerrota.volume(0.3)
             sonidoDerrota.play()
             self.pararJuego()
