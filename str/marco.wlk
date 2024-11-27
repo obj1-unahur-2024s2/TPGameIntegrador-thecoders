@@ -1,5 +1,5 @@
 object marco{
-  var property position = game.at(0,0)
+  var property position = game.at(0,2)
   // es una variable que le dice al marco si se puede mover
   var property puedeMoverse = true
   method image() = "marco.png"
@@ -12,6 +12,6 @@ object marco{
   }
   method esPosicionValida(unaPosicion){
     return unaPosicion.x() >= 0 and unaPosicion.x() < game.width() / 2 and
-    unaPosicion.y() >= 0 and unaPosicion.y() < game.height()
+    unaPosicion.y() >= 2 and unaPosicion.y() < game.height()
   }
 }

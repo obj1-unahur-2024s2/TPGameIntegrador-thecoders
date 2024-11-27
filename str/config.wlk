@@ -102,12 +102,12 @@ object juego {
     method iniciarJuego(){
         if (!estaIniciado){
             estaIniciado = true
-            tablero.agregarEntidad(new Torre(position = game.at(17, 11),equipo = equipoRojo))
-            tablero.agregarEntidad(new Torre(position = game.at(21,7),equipo = equipoRojo))
-            tablero.agregarEntidad(new Torre(position = game.at(17,3),equipo = equipoRojo))
-            tablero.agregarEntidad(new Torre(position = game.at(6,11),equipo = equipoAzul))
-            tablero.agregarEntidad(new Torre(position = game.at(2,7),equipo = equipoAzul))
-            tablero.agregarEntidad(new Torre(position = game.at(6,3),equipo = equipoAzul))
+            tablero.agregarEntidad(new Torre(position = game.at(17, 12),equipo = equipoRojo))
+            tablero.agregarEntidad(new Torre(position = game.at(21,8),equipo = equipoRojo))
+            tablero.agregarEntidad(new Torre(position = game.at(17,4),equipo = equipoRojo))
+            tablero.agregarEntidad(new Torre(position = game.at(6,12),equipo = equipoAzul))
+            tablero.agregarEntidad(new Torre(position = game.at(2,8),equipo = equipoAzul))
+            tablero.agregarEntidad(new Torre(position = game.at(6,4),equipo = equipoAzul))
             tablero.agregarTeclasInstrucciones(teclaPausa)
             tablero.agregarTeclasInstrucciones(teclaReinicio)
             musicaAmbiente.volume(0.3)
