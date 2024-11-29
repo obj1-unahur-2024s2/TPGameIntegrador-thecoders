@@ -74,7 +74,7 @@ object notificacionDeDerrota {
 
 object notificacionDePausa {
     method position() = game.at(0,0)
-    method image() = "mensaje-pausa-acomodado.png"
+    method image() = "nuevo-mensaje-pausa.png"
     method mostrarNotificacion() {
         game.addVisual(self)
     }
