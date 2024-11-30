@@ -6,6 +6,7 @@ import interfazJuego.*
 import configInterfaz.*
 import tablero.*
 import marco.*
+import oro.*
 
 object config{
     var property maximoTropas = 0
@@ -45,7 +46,6 @@ object config{
             }
         })
     }
-
 }
 
 object paleta {
@@ -83,6 +83,21 @@ object notificacionDePausa {
     }
 }
 
+object notificacionNoHayOro {
+    var property seEstaMostrando = false
+    method position() = game.center()
+    method text() = 'No hay oro suficiente'
+    method textColor() = paleta.white()
+    method mostrarNotificacion() {
+        if (!seEstaMostrando) {
+            game.addVisual(self)
+            seEstaMostrando = true
+        }
+        game.schedule(2000, {game.removeVisual(self)})
+        game.schedule(2000, {self.seEstaMostrando(false)})
+    }
+}
+
 object notificacionDeAlertaMaximaEntidades {
     var property seEstaMostrando = false
     method position() = game.center()
@@ -102,7 +117,6 @@ object juego {
     var property estaIniciado = false
     var property partidaTerminada = false
     const musicaAmbiente = game.sound('musica-ambiente.mp3')
-    
     method iniciarJuego(){
         if (!estaIniciado){
             estaIniciado = true
@@ -114,6 +128,7 @@ object juego {
             tablero.agregarEntidad(new Torre(position = game.at(5,1),equipo = equipoAzul))
             tablero.agregarTeclasInstrucciones(teclaPausa)
             tablero.agregarTeclasInstrucciones(teclaReinicio)
+            oro.mostrarOro()
             musicaAmbiente.volume(0.3)
             musicaAmbiente.shouldLoop(true)
             musicaAmbiente.play()
@@ -127,6 +142,7 @@ object juego {
             sonidoVictoria.volume(0.3)
             sonidoVictoria.play()
             game.addVisual(notificacionDeVictoria)
+            game.removeTickEvent('regenerarOro')
         }
     }
     method reiniciar(){
@@ -145,7 +161,10 @@ object juego {
         
             // Limpiamos el juiego
             self.pararJuego()
+            game.removeTickEvent('regenerarOro')
+            oro.borrarOro()
             tablero.limpiar()
+            tablero.reiniciarOro()
             
             // Visualizar interfaz otra vez
             interfaz.aparecerInterfaz()
@@ -164,7 +183,9 @@ object juego {
         self.continuarJuego()
         notificacionDePausa.ocultarNotificacion()
     }
+
     method pararJuego(){
+        game.removeTickEvent("regenerarOro")
         game.removeTickEvent("comportamiento")
         marco.puedeMoverse(false)
     }
@@ -172,6 +193,7 @@ object juego {
         enemigo.iniciar()
         marco.puedeMoverse(true)
         tablero.descongelarEntidades()
+        game.onTick(1500, 'regenerarOro', {tablero.regenerarOro()})
     }
 
     method perder(){
@@ -183,6 +205,7 @@ object juego {
             sonidoDerrota.play()
             self.pararJuego()
             game.addVisual(notificacionDeDerrota)
+            game.removeTickEvent('regenerarOro')
         }
     }
 }

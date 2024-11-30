@@ -15,7 +15,6 @@ program Wollolok {
 	configInterfaz.seleccionarDificultad()
 
 	config.configurarTeclas()
-
 	// tablero.visualizar()
 	
 	game.boardGround("mapa-chico.png")

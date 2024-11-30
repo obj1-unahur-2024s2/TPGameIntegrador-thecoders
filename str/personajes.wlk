@@ -33,6 +33,7 @@ class Personaje inherits Entidad{
   method equipo() = equipo
   method position() = position
   method textColor() = equipo.color()
+  method costo()
 
   override method cambiarDeEquipo(){
     equipo = equipo.contrario()
@@ -103,6 +104,8 @@ class Monje inherits Personaje(vida = 50, danio = 2){
     game.onTick(3000, "comportamiento", {self.moveteHaciaTorreEnemigaMasCercanaSiHay()})
   }
 
+  override method costo()= 3
+
   override method atacar(unPersonaje){
     unPersonaje.cambiarDeEquipo()
     unPersonaje.image()
@@ -121,6 +124,7 @@ class Infanteria inherits Personaje(vida = 50, danio = 10){
       const sonidoAtaque = game.sound("espadazo.mp3")
       sonidoAtaque.play()
   }
+  override method costo()= 2
 }
 
 
@@ -158,6 +162,9 @@ class Arquero inherits Personaje(vida = 20, danio = 8){
       }
     }
   }
+
+  override method costo()= 5
+
 }
 
 object equipoRojo {
