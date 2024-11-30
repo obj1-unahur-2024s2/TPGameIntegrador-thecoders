@@ -58,7 +58,7 @@ object paleta {
 
 object notificacionDeVictoria {
     method position() = game.at(0,0)
-    method image() = "mensaje-victoria-nuevo.png"
+    method image() = "notificacion-victoria.png"
     method mostrarNotificacion() {
         game.addVisual(self)
     }
