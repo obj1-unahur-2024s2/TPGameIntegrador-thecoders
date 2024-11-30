@@ -87,7 +87,7 @@ object notificacionNoHayOro {
     var property seEstaMostrando = false
     method position() = game.center()
     method text() = 'No hay oro suficiente'
-    method textColor() = paleta.white()
+    method textColor() = paleta.rojo()
     method mostrarNotificacion() {
         if (!seEstaMostrando) {
             game.addVisual(self)

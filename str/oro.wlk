@@ -4,6 +4,7 @@ import config.*
 object oro {
   const property position = game.at(0,10)
   method text() = "Oro: " + tablero.oroActual()
+  method textColor() = paleta.rojo()
   method mostrarOro() {
     game.addVisual(self)
   }
