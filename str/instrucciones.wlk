@@ -3,7 +3,7 @@ import config.*
 import configInstrucciones.*
 object instrucciones {
   const property position = game.at(0,0)
-  const property image = "instrucciones-interfaz.png"
+  const property image = "instrucciones-nuevo-disenio.png"
   var property estaCerrado = false
   
   method aparecerInstrucciones() {

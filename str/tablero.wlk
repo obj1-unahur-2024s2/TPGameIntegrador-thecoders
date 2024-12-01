@@ -30,12 +30,17 @@ object tablero{
   }
 
   method intentarAgregarEntidad(unaEntidad){
-    if(self.puedeColocarCarta() and oroActual >= unaEntidad.costo()) {
+    if(self.puedeColocarCarta(unaEntidad)) {
       self.agregarEntidad(unaEntidad)
       self.gastarOro(unaEntidad.costo())
     }
     else {
+      if (!self.noLlegoAlMaximoDeTropas()) {
+        notificacionDeAlertaMaximaEntidades.mostrarNotificacion()
+      }
+      else {
         notificacionNoHayOro.mostrarNotificacion()
+      }
     }
   }
 
@@ -45,13 +50,24 @@ object tablero{
     unaEntidad.cumplirObjetivoInicial()
   }
 
+  method oroSuficiente(unaEntidad) {
+    var suficiente = false
+    if (oroActual >= unaEntidad.costo()) {
+      suficiente = true
+    }
+    return suficiente
+  }
 
-  method puedeColocarCarta() {
+  method noLlegoAlMaximoDeTropas() {
     var puede = false
       if ((self.tropas(equipoAzul).size() < config.maximoTropas()) and instrucciones.estaCerrado()) {
         puede = true
     }
     return puede
+  }
+
+  method puedeColocarCarta(unaCarta) {
+    return self.noLlegoAlMaximoDeTropas() and self.oroSuficiente(unaCarta)
   }
 
   method agregarTeclasInstrucciones(unaTecla) {
