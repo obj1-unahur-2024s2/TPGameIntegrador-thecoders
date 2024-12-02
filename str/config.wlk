@@ -37,7 +37,7 @@ object config{
         var estaPausado = false
         keyboard.p().onPressDo({
             estaPausado != estaPausado
-            if (!estaPausado) {
+            if (!estaPausado and instrucciones.estaCerrado()) {
                 estaPausado = true
                 juego.pausar()
             } else{
@@ -178,6 +178,7 @@ object juego {
     method pausar(){
         self.pararJuego()
         notificacionDePausa.mostrarNotificacion()
+        
     }
     method desPausar(){
         self.continuarJuego()
