@@ -27,8 +27,7 @@ object oro {
     return suficiente
   }
   const property position = game.at(0,10)
-  method text() = "Oro: " + oroActual
-  method textColor() = paleta.rojo()
+  method image() =""+oroActual+"-oro.png"
   method mostrarOro() {
     game.addVisual(self)
   }

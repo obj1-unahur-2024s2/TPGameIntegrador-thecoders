@@ -69,7 +69,7 @@ object notificacionDeVictoria {
 
 object notificacionDeDerrota {
     method position() = game.at(0,0)
-    method image() = "mensaje-derrota.png"
+    method image() = "mensaje-derrotanuevo.png"
 }
 
 object notificacionDePausa {
