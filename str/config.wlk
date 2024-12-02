@@ -164,7 +164,7 @@ object juego {
             game.removeTickEvent('regenerarOro')
             oro.borrarOro()
             tablero.limpiar()
-            tablero.reiniciarOro()
+            oro.reiniciarOro()
             
             // Visualizar interfaz otra vez
             interfaz.aparecerInterfaz()
@@ -193,7 +193,7 @@ object juego {
         enemigo.iniciar()
         marco.puedeMoverse(true)
         tablero.descongelarEntidades()
-        game.onTick(1500, 'regenerarOro', {tablero.regenerarOro()})
+        game.onTick(1500, 'regenerarOro', {oro.regenerarOro()})
     }
 
     method perder(){

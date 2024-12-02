@@ -4,38 +4,22 @@ import config.*
 import oro.*
 
 object tablero{
-  var oroActual = 5
-  const oroMaximo = 10
+
   const property entidadesActivas = []
   const property teclasInstruciones = []
 
-  method oroActual()= oroActual
 
-  method regenerarOro() {
-        if (oroActual < oroMaximo) {
-            oroActual = oroActual + 1
-        }
-    }
-  method gastarOro(cantidad) {
-      if (oroActual >= cantidad) {
-          oroActual = oroActual - cantidad
-      } 
-  }
-  method obtenerOro() {
-      oroActual
-  }
-
-  method reiniciarOro() {
-    oroActual = 5
-  }
 
   method intentarAgregarEntidad(unaEntidad){
-    if(self.puedeColocarCarta() and oroActual >= unaEntidad.costo()) {
+    if(self.puedeColocarCarta() and oro.oroActual() >= unaEntidad.costo()) {
       self.agregarEntidad(unaEntidad)
-      self.gastarOro(unaEntidad.costo())
+      oro.gastarOro(unaEntidad.costo())
     }
-    else {
-        notificacionNoHayOro.mostrarNotificacion()
+    else if(not self.puedeColocarCarta()){
+      notificacionDeAlertaMaximaEntidades.mostrarNotificacion()
+    }
+    else{
+      notificacionNoHayOro.mostrarNotificacion()
     }
   }
 
