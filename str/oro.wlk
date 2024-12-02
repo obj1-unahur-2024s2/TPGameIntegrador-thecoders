@@ -19,6 +19,13 @@ object oro {
   method reiniciarOro() {
     oroActual = 5
   }
+  method oroSuficiente(unaEntidad) {
+    var suficiente = false
+    if (oroActual >= unaEntidad.costo()) {
+      suficiente = true
+    }
+    return suficiente
+  }
   const property position = game.at(0,10)
   method text() = "Oro: " + oroActual
   method textColor() = paleta.rojo()

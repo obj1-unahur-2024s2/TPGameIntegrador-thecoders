@@ -8,28 +8,16 @@ object tablero{
   const property entidadesActivas = []
   const property teclasInstruciones = []
 
-
-
   method intentarAgregarEntidad(unaEntidad){
-    if(self.puedeColocarCarta() and oro.oroActual() >= unaEntidad.costo()) {
     if(self.puedeColocarCarta(unaEntidad)) {
       self.agregarEntidad(unaEntidad)
       oro.gastarOro(unaEntidad.costo())
     }
-    else if(not self.puedeColocarCarta()){
+    else if(not self.noLlegoAlMaximoDeTropas()){
       notificacionDeAlertaMaximaEntidades.mostrarNotificacion()
     }
     else{
       notificacionNoHayOro.mostrarNotificacion()
-      self.gastarOro(unaEntidad.costo())
-    }
-    else {
-      if (!self.noLlegoAlMaximoDeTropas()) {
-        notificacionDeAlertaMaximaEntidades.mostrarNotificacion()
-      }
-      else {
-        notificacionNoHayOro.mostrarNotificacion()
-      }
     }
   }
 
@@ -39,13 +27,7 @@ object tablero{
     unaEntidad.cumplirObjetivoInicial()
   }
 
-  method oroSuficiente(unaEntidad) {
-    var suficiente = false
-    if (oroActual >= unaEntidad.costo()) {
-      suficiente = true
-    }
-    return suficiente
-  }
+
 
   method noLlegoAlMaximoDeTropas() {
     var puede = false
@@ -56,7 +38,7 @@ object tablero{
   }
 
   method puedeColocarCarta(unaCarta) {
-    return self.noLlegoAlMaximoDeTropas() and self.oroSuficiente(unaCarta)
+    return self.noLlegoAlMaximoDeTropas() and oro.oroSuficiente(unaCarta)
   }
 
   method agregarTeclasInstrucciones(unaTecla) {
